@@ -21,24 +21,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="handler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="shader.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="json.h">
@@ -52,12 +43,12 @@
     <None Include="shader\FragmentShader.frag">
       <Filter>소스 파일\shader</Filter>
     </None>
-    <None Include="data.json">
+    <None Include="data\data.json">
       <Filter>리소스 파일</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="heightmap.bmp">
+    <Image Include="data\heightmap.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

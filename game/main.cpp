@@ -8,30 +8,19 @@
 
 using Json = nlohmann::json;
 
-GLint windowSizeX = 2048, windowSizeY = 1024;
-int shadingType= typePhong;
-
-CAGLE::Management gManager = CAGLE::Management::get_instance();
 
 void main(int argc, char* argv[]) {
 
-	/** glut, windows setting */
-	glutInit(&argc, argv);
+	auto& gResourceManager =CAGLE::ResourceManager::getInstance();
+	auto& gRenderManager =	CAGLR::RenderManager::getInstance(argc, argv);
 
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(windowSizeX, windowSizeY);
-	glutCreateWindow("GAME");
-
-	/** gl setting => gl.cpp */
-	myGLInit();
 
 
 	/** set components */
 	componentInit();
 
+	gRenderManager.display();
 
-	/** Render => gl.cpp **/
-	glutDisplayFunc(render);
 
 
 	
@@ -54,11 +43,16 @@ void main(int argc, char* argv[]) {
 /****  Set Init position  ****/
 void componentInit()
 {
+	auto& gResourceManager = CAGLE::ResourceManager::getInstance();
+
+	GLint	windowSizeX = 2048;
+	GLint	windowSizeY = 1024;
+
 	/** make Terrain */
-	gManager.newTerrain("heightmap.bmp");
+	gResourceManager.newTerrain("data\\heightmap.bmp");
 
 	Json save;
-	std::ifstream in("data.json");
+	std::ifstream in("data\\data.json");
 	in >> save;
 
 	/** make Camera */
@@ -67,7 +61,7 @@ void componentInit()
 		std::string name = it.key();
 		Json list = it.value();
 
-		auto& camera = gManager.newCamera(name);
+		auto& camera = gResourceManager.newCamera(name);
 
 		camera.Aspect(windowSizeX / windowSizeY);
 		camera.Position(CAGLM::Vec3<float>(list["position"][0], list["position"][1], list["position"][2]));
@@ -81,8 +75,8 @@ void componentInit()
 		std::string name = it.key();
 		Json list = it.value();
 
-		auto& object = gManager.newObject(name);
-		auto model = gManager.newModel(list["fileName"]);
+		auto& object = gResourceManager.newObject(name);
+		auto model = gResourceManager.newModel(list["fileName"]);
 
 		object.bind(model);
 		object.Size(list["size"]);
@@ -90,11 +84,11 @@ void componentInit()
 	}
 
 	/** make Light */
-	gManager.iWannaLight();
+	gResourceManager.iWannaLight();
 
-	gManager.getLight()->Position(CAGLM::Vec3<float>(40, 200, -50));
+	gResourceManager.getLight()->Position(CAGLM::Vec3<float>(40, 200, -50));
 	
-	gManager.refresh();
+	gResourceManager.refresh();
 
 	in.close();
 }
@@ -102,24 +96,26 @@ void componentInit()
 /**** print string ****/
 void printF(int progress)
 {
+	CAGLE::ResourceManager& gResourceManager = CAGLE::ResourceManager::getInstance();
+
 	switch (progress)
 	{
 	case printCamera:
 		std::cout << std::fixed;
 		std::cout.precision(1);
-		std::cout << "\r#Camera tracing: X=" << gManager.getCamera("camera1")->X() << " Y=" << gManager.getCamera("camera1")->Y() << " Z=" << gManager.getCamera("camera1")->Z()
-			<< " roll=" << gManager.getCamera("camera1")->Roll() << " yaw=" << gManager.getCamera("camera1")->Yaw() << " pitch=" << gManager.getCamera("camera1")->Pitch()
-			<< " fov=" << gManager.getCamera("camera1")->Fovy()<<" aspect=" << gManager.getCamera("camera1")->Aspect();
+		std::cout << "\r#Camera tracing: X=" << gResourceManager.getCamera("camera1")->X() << " Y=" << gResourceManager.getCamera("camera1")->Y() << " Z=" << gResourceManager.getCamera("camera1")->Z()
+			<< " roll=" << gResourceManager.getCamera("camera1")->Roll() << " yaw=" << gResourceManager.getCamera("camera1")->Yaw() << " pitch=" << gResourceManager.getCamera("camera1")->Pitch()
+			<< " fov=" << gResourceManager.getCamera("camera1")->Fovy()<<" aspect=" << gResourceManager.getCamera("camera1")->Aspect();
 		break;
 	case printLight:
 		std::cout << std::fixed;
 		std::cout.precision(1);
-		std::cout << "\r#Light tracing: Y=" << gManager.getLight()->Y() << " Z=" << gManager.getLight()->Z() <<"\t\t\t\t\t\t\t\t\t";
+		std::cout << "\r#Light tracing: Y=" << gResourceManager.getLight()->Y() << " Z=" << gResourceManager.getLight()->Z() <<"\t\t\t\t\t\t\t\t\t";
 		break;
 	case printRemote:
 		std::cout << std::fixed;
 		std::cout.precision(1);
-		std::cout << "\r#Remote tracing: X=" << gManager.getObject("rover")->X() << " Z=" << gManager.getObject("rover")->Z() << "\t\t\t\t\t\t\t\t\t";
+		std::cout << "\r#Remote tracing: X=" << gResourceManager.getObject("rover")->X() << " Z=" << gResourceManager.getObject("rover")->Z() << "\t\t\t\t\t\t\t\t\t";
 		break;
 	}
 }

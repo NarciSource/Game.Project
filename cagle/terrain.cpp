@@ -12,7 +12,7 @@ Image::Image(int h, int w) :height(h), width(w)
 
 Image& Image::load_bmp(const std::string filename)
 {
-	std::ifstream fin("heightmap.bmp", std::ios::in | std::ios::binary);
+	std::ifstream fin(filename, std::ios::in | std::ios::binary);
 
 	/** read header */
 	BITMAPFILEHEADER bmp_header;

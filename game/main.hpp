@@ -3,13 +3,15 @@
 #pragma comment(lib,"glut32.lib")
 #pragma comment(lib,"glew32.lib")
 #pragma comment(lib,"cagle.lib")
+#pragma comment(lib,"caglr.lib")
 
 
 #include "glew.h"
 #include "glut.h"
 
-#include "shader.hpp"
-#include "manager.h"
+#include "resourceManager.h"
+#include "renderManager.h"
+
 #include "object.h"
 #include "model.h"
 
@@ -21,16 +23,10 @@
 #define printRemote 0x0005
 
 
-extern GLint windowSizeX, windowSizeY;
-extern CAGLE::Management gManager;
+
 
 extern int shadingType;
 
-
-/** init.cpp */
-void myGLInit();
-void renderObject(CAGLE::Object *_model);
-void render();
 
 /** main.cpp */
 void keyboardHandler(const unsigned char key, const int x, const int y);

@@ -70,12 +70,21 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\cagle;..\opengl\glew-2.1.0\include\GL;..\opengl\glut-3.7\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\cagle\Debug;..\opengl\glew-2.1.0\lib\Release\Win32;..\opengl\glut-3.7\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\caglr;..\cagle;..\opengl\glew-2.1.0\include\GL;..\opengl\glut-3.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\caglr\Debug;..\cagle\Debug;..\opengl\glew-2.1.0\lib\Release\Win32;..\opengl\glut-3.7\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>..\caglr;..\cagle;..\opengl\glew-2.1.0\include\GL;..\opengl\glut-3.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\caglr\Release;..\cagle\Release;..\opengl\glew-2.1.0\lib\Release\Win32;..\opengl\glut-3.7\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IncludePath>..\cagle;..\opengl\glew-2.1.0\include\GL;..\opengl\glut-3.7\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\cagle\Release;..\opengl\glew-2.1.0\lib\Release\Win32;..\opengl\glut-3.7\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>..\cagle;..\opengl\glew-2.1.0\include\GL;..\opengl\glut-3.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\cagle\Debug;..\opengl\glew-2.1.0\lib\Release\Win32;..\opengl\glut-3.7\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glew32.lib;glut32.lib;cagle.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glut32.lib;cagle.lib;caglr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -93,6 +102,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>glew32.lib;glut32.lib;cagle.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -105,7 +117,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32.lib;glut32.lib;cagle.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glut32.lib;cagle.lib;caglr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -120,26 +132,24 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glew32.lib;glut32.lib;cagle.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="gl.cpp" />
     <ClCompile Include="handler.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json.h" />
     <ClInclude Include="main.hpp" />
-    <ClInclude Include="shader.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="data.json" />
+    <None Include="data\data.json" />
     <None Include="shader\FragmentShader.frag" />
     <None Include="shader\VertexShader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="heightmap.bmp" />
+    <Image Include="data\heightmap.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,6 +11,8 @@ GLint colorID, lightID, cameraID;
 GLint shadingTypeID;
 GLuint texture;
 
+char* vertexShaderName("shader\\VertexShader.vert");
+char* fragmentShaderName("shader\\FragmentShader.frag");
 
 void myGLInit()
 {
@@ -20,7 +22,7 @@ void myGLInit()
 		std::cerr<<"glew error"<<std::endl;
 	}
 
-	ProgramID = shader::LoadShaders("shader\\VertexShader.vert", "shader\\FragmentShader.frag");
+	ProgramID = CAGLR::LoadShaders(vertexShaderName, fragmentShaderName);
 
 	modelMatrixID = glGetUniformLocation(ProgramID, "modelMatrix");
 	viewMatrixID = glGetUniformLocation(ProgramID, "viewMatrix");
@@ -53,15 +55,6 @@ void myGLInit()
 
 	glEnable(GL_TEXTURE_2D);
 	*/
-
-
-
-
-
-
-
-
-
 
 	glClearColor(0.5f, 0.5f, 1.0f, 1.0f);
 
