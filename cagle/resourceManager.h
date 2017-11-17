@@ -71,6 +71,9 @@ namespace CAGLE {
 		Player* player;
 
 		bool getPlayer();
+		/***************************************************************************************/
+
+
 
 
 
@@ -118,17 +121,13 @@ namespace CAGLE {
 
 		
 
-		/*** Terrain */
-		Terrain& newTerrain(const std::string filename)
-		{
-			terrain = Terrain::load_terrain(filename);
-			return *terrain;
-		}
+		/***************** Terrain manage ********************************************************/
+		Terrain& newTerrain(const std::string filename);
 		
-		Terrain* getTerrain()
-		{
-			return terrain;
-		}
+		Terrain* getTerrain();
+
+		void	 deleteTerrain();
+		/***************************************************************************************/
 
 		void refresh(void);
 

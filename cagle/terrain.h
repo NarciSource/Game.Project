@@ -4,57 +4,77 @@
 #include <iostream>
 #include <Windows.h>
 
+#include "caglm.h"
 
-struct Pixel
-{
-	Pixel() {}
-	Pixel(int r, int g, int b)
-		:r(r), g(g), b(b) {}
-	int r, g, b;
-};
+namespace CAGLE {
+	struct Pixel
+	{
+		Pixel() {}
+		Pixel(int r, int g, int b)
+			:r(r), g(g), b(b) {}
+		int r, g, b;
+	};
 
-class Image
-{
-private:
+	class Image
+	{
+	private:
+		int width;
+		int height;
 
-	int width;
-	int height;
-
-	std::vector<std::vector<Pixel> > pixels;
-
-
-	Image(int h, int w);
-
-public:
-	static Image& load_bmp(const std::string filename);
-
-	void close();
-
-	const int Width()	{ return width; }
-	const int Height()	{ return height; }
-	const Pixel Pixels(const int x, const int y) { return pixels[x][y]; }
-};
+		std::vector<std::vector<Pixel> > pixels;
 
 
-class Terrain
-{
-private:
-	int length;
-	int width;
+	private:
+		Image(int h, int w);
 
-	std::vector<std::vector<float> > heights_map;
+	public:
+		static Image& load_bmp(const std::string filename);
+
+		void close();
+
+		/* get */
+		const int Width() { return width; }
+		const int Height() { return height; }
+		const Pixel Pixels(const int x, const int y) { return pixels[x][y]; }
+	};
+
+
+	class Terrain
+	{
+	private:
+		int length;
+		int width;
+
+		float**		vertexs;
+		float**		normals;
+		int*		indices;
+
+	private:
+		void compute_vertex(float**);
+		void compute_normal(float**);
+		void compute_indice();
+		
+
+	public:
+		static Terrain* load_terrain(const std::string filename);
+
+		/* get */
+		const int Length() { return length; }
+		const int Width() { return width; }
+
+		const int indices_size() { return (length * 2 - 2)*(width + 1); }
+
+		float*	Vertexs() { return vertexs[0]; }
+		float*	Normals() { return normals[0]; }
+		int*	Indices() { return indices; }
 
 
 
-public:
 
-	static Terrain* load_terrain(const std::string filename);
 
-	const float Height(const int x, const int y) { return heights_map[x][y]; }
 
-	const int Length() { return length; }
-	const int Width() { return width; }
-
-private:
-	Terrain(int h, int w);
-};
+		~Terrain();
+	private:
+		Terrain(int h, int w);
+	};
+}

@@ -223,6 +223,23 @@ namespace CAGLE {
 
 
 
+	Terrain& ResourceManager::newTerrain(const std::string filename)
+	{
+		terrain = Terrain::load_terrain(filename);
+		return *terrain;
+	}
+
+	Terrain* ResourceManager::getTerrain()
+	{
+		return terrain;
+	}
+
+	void ResourceManager::deleteTerrain()
+	{
+		delete terrain;
+	}
+
+
 	void ResourceManager::refresh(void)
 	{
 		for (auto const& each : objects)

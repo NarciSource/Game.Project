@@ -45,6 +45,7 @@ namespace CAGLR {
 	{
 		/** gl setting */
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_LIGHTING);
 		int glewtest = glewInit();
 		if (glewtest != GLEW_OK) {
 			std::cerr << "glew error" << std::endl;
@@ -104,7 +105,7 @@ namespace CAGLR {
 
 
 		/* Terrain render */
-		renderTerrain();
+		renderTerrain(gResourceManager.getTerrain());
 
 
 		glDisableVertexAttribArray(vertexPositionID);
@@ -118,21 +119,30 @@ namespace CAGLR {
 	}
 
 
-	void RenderManager::renderTerrain()
+	void RenderManager::renderTerrain(CAGLE::Terrain* terrain)
 	{
-		auto& gResourceManager = CAGLE::ResourceManager::getInstance();
+		/** Vertex */
+		glVertexAttribPointer(
+			vertexPositionID,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			sizeof(GLint) * 3,
+			terrain->Vertexs()
+		);
 
-		glColor3f(0.3f, 0.9f, 0.0f);
-		for (int z = 0; z < gResourceManager.getTerrain()->Length() - 1; z++) {
-			//Makes OpenGL draw a triangle at every three consecutive vertices
-			glBegin(GL_TRIANGLE_STRIP);
-			for (int x = 0; x < gResourceManager.getTerrain()->Width(); x++) {
+		/** Normal */
+		glVertexAttribPointer(
+			normalID,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			sizeof(GLint) * 3,
+			terrain->Normals()
+		);
 
-				glVertex3f(x / 10.f, gResourceManager.getTerrain()->Height(x, z), z / 10.f);
-				glVertex3f(x / 10.f, gResourceManager.getTerrain()->Height(x, z + 1), (z + 1) / 10.f);
-			}
-			glEnd();
-		}
+		/** Draw call */
+		glDrawElements(GL_TRIANGLE_STRIP, terrain->indices_size(), GL_UNSIGNED_INT, terrain->Indices());
 	}
 
 
