@@ -20,7 +20,7 @@ namespace CAGLR {
 		});
 	}
 
-	void RenderManager::setShadingType(int type)
+	void RenderManager::setShadingType(ShadingType type)
 	{
 		shadingType = type;
 	}
@@ -92,7 +92,7 @@ namespace CAGLR {
 		glUniform4f(lightID, gResourceManager.getLight()->X(), gResourceManager.getLight()->Y(), gResourceManager.getLight()->Z(), 0);
 
 		/** Shading Type, I supported phong and gouroud */
-		glUniform1i(shadingTypeID, shadingType);//shadingType);
+		glUniform1i(shadingTypeID, getShadingType());//shadingType);
 
 
 		glEnableVertexAttribArray(vertexPositionID);
@@ -109,6 +109,7 @@ namespace CAGLR {
 		/* Ground render*/
 		renderGround(gResourceManager.getGround("ground1"));
 
+		renderLayout(gResourceManager.getObject("house"));
 
 		glDisableVertexAttribArray(vertexPositionID);
 		glDisableVertexAttribArray(normalID);
@@ -120,6 +121,42 @@ namespace CAGLR {
 		glutSwapBuffers();
 	}
 
+	void RenderManager::renderLayout(CAGLE::Object* object)
+	{
+		object->Size(1);
+		object->Position(CAGLM::Vec3<float>(-20, 0, -20));
+		object->refresh();
+		
+
+		/** light off */
+		glUniform1i(shadingTypeID, static_cast<int>(ShadingType::Dont));
+		/** view fixing */
+		glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, CAGLM::Mat4().getElement());
+
+		/** Model Matrix */
+		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, object->loadModelMatrix());
+
+		/** Color */
+		glUniform4f(colorID, 1.f* (object->Color() / 0x10000) / 0xFF,
+			1.f* (object->Color() / 0x100 % 0x100) / 0xFF,
+			1.f* (object->Color() % 0x100) / 0xFF,
+			0.0f
+		);
+
+
+		/** Vertex */
+		glVertexAttribPointer(
+			vertexPositionID,// The attribute we want to configure
+			3,    // size
+			GL_FLOAT,// type
+			GL_FALSE,// normalized?
+			sizeof(GLfloat) * 3,// stride
+			object->loadVertexPosition()// array buffer offset
+		);
+
+		/** Draw call */
+		glDrawArrays(GL_TRIANGLES, 0, object->loadPolygonCount() * 3);
+	}
 
 	void RenderManager::renderGround(CAGLE::Ground* ground)
 	{

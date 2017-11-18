@@ -124,11 +124,6 @@
       "position": [ 200, 0, -40 ],
       "size": 50
     },
-    "tree9": {
-      "fileName": "data\\PineTree.obj",
-      "position": [ 200, 0, -40 ],
-      "size": 50
-    },
     "house": {
       "fileName": "data\\Dio.obj",
       "position": [ -30, 0, 10 ],

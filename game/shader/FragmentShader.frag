@@ -24,7 +24,7 @@ void main() {
 		gl_FragColor = fragColor;
 	}
 
-	if(shadingType == 0x02) // Phong Gouraud
+	if(shadingType == 0x02) // Phong shading
 	{
 		vec4 L = lightPosition - fragPosition;
 		vec4 V = cameraPosition - fragPosition;
@@ -47,6 +47,11 @@ void main() {
 		float sc = 0.2;
 
 		gl_FragColor = (ac * ambient + dc * diffusion + sc * specular) * fragColor;
+	}
+
+	if(shadingType == 0x03) // Don't shading
+	{
+		gl_FragColor = fragColor;
 	}
 }
 

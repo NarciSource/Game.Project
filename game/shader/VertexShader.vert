@@ -67,5 +67,9 @@ void main () {
 	{
 		fragColor = colorValue;
 	}
+	if(shadingType == 0x03) // Don't shading
+	{
+		fragColor = colorValue;
+	}
 
 }

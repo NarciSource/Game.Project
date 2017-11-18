@@ -16,8 +16,7 @@
 #include "model.h"
 
 
-#define typeGouraud 0x01
-#define typePhong 0x02
+
 #define printCamera 0x0003
 #define printLight 0x0004
 #define printRemote 0x0005

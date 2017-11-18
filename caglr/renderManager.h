@@ -14,6 +14,13 @@
 
 
 namespace CAGLR {
+	enum class ShadingType
+	{
+		Gouraud = 0x01,
+		Phong = 0x02,
+		Dont = 0x03
+	};
+
 	class RenderManager
 	{
 	public:
@@ -23,7 +30,9 @@ namespace CAGLR {
 	public:
 		void display();
 
-		void setShadingType(int type);
+		void setShadingType(ShadingType type);
+
+		int getShadingType() { return static_cast<int>(shadingType); }
 
 	private:
 		GLint	windowSizeX = 2048;
@@ -36,7 +45,7 @@ namespace CAGLR {
 		GLint	shadingTypeID;
 		GLuint	texture;
 
-		int		shadingType = 0x02;
+		ShadingType	shadingType = ShadingType::Phong;
 
 	private:
 		RenderManager(int argc, char* argv[]);
@@ -48,6 +57,8 @@ namespace CAGLR {
 		void renderObject(CAGLE::Object* object);
 
 		void renderGround(CAGLE::Ground* ground);
+
+		void renderLayout(CAGLE::Object* object);
 
 		GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
 	};

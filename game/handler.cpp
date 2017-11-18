@@ -185,9 +185,9 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 
 		/** Shader type changing */
 	case 'g':
-		gRenderManager.setShadingType(typeGouraud); break;
+		gRenderManager.setShadingType(CAGLR::ShadingType::Gouraud); break;
 	case 'h':
-		gRenderManager.setShadingType(typePhong);	break;
+		gRenderManager.setShadingType(CAGLR::ShadingType::Phong);	break;
 
 
 		/** Romote rover object */
