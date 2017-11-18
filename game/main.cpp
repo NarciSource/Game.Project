@@ -48,8 +48,7 @@ void componentInit()
 	GLint	windowSizeX = 2048;
 	GLint	windowSizeY = 1024;
 
-	/** make Terrain */
-	gResourceManager.newTerrain("data\\heightmap.bmp");
+	
 
 	Json save;
 	std::ifstream in("data\\data.json");
@@ -82,6 +81,24 @@ void componentInit()
 		object.Size(list["size"]);
 		object.Position(CAGLM::Vec3<float>(list["position"][0], list["position"][1], list["position"][2]));
 	}
+
+	/** make Terrain */
+	for (auto it = save["g"].begin(); it != save["g"].end(); it++)
+	{
+		std::string name = it.key();
+		Json list = it.value();
+
+		auto& ground = gResourceManager.newGround(name);
+		auto model = gResourceManager.newTerrain(list["fileName"]);
+
+		ground.bind(model);
+		ground.Size(list["size"]);
+		ground.Position(CAGLM::Vec3<float>(list["position"][0], list["position"][1], list["position"][2]));
+		ground.refresh();
+	}
+
+
+
 
 	/** make Light */
 	gResourceManager.iWannaLight();

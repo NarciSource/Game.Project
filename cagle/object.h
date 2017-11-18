@@ -57,7 +57,7 @@ namespace CAGLE {
 
 	private:
 		/** Object Name */
-		std::string lable;
+		std::string label;
 
 
 		/** Local Coordinate
@@ -90,8 +90,8 @@ namespace CAGLE {
 
 
 		/** Get and Set */
-		AUTO_GETSET(std::string, hisNameIs, lable);
-		AUTO_GETSET(std::string, herNameIs, lable);
+		AUTO_GETSET(std::string, hisNameIs, label);
+		AUTO_GETSET(std::string, herNameIs, label);
 		AUTO_GETSET(CAGLM::Vec3<float>, Position, position);
 		AUTO_GETSET2(float, X, position);
 		AUTO_GETSET2(float, Y, position);

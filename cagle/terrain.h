@@ -50,31 +50,25 @@ namespace CAGLE {
 		int*		indices;
 
 	private:
+		void init(int h, int w);
+
 		void compute_vertex(float**);
 		void compute_normal(float**);
-		void compute_indice();
-		
+		void compute_indice();		
 
 	public:
-		static Terrain* load_terrain(const std::string filename);
+		Terrain() {}
+		~Terrain();
+
+		void load_terrain(const std::string filename);
+
+		
 
 		/* get */
-		const int Length() { return length; }
-		const int Width() { return width; }
-
 		const int indices_size() { return (length * 2 - 2)*(width + 1); }
 
 		float*	Vertexs() { return vertexs[0]; }
 		float*	Normals() { return normals[0]; }
 		int*	Indices() { return indices; }
-
-
-
-
-
-
-		~Terrain();
-	private:
-		Terrain(int h, int w);
 	};
 }

@@ -1,1 +1,143 @@
-{"c":{"camera1":{"far":500.0,"lookat":[0,50,0],"position":[0,20,100]}},"o":{"rover":{"fileName":"data\\Mars Rock Collecter.obj","position":[-30,0,130],"size":5},"teapot":{"fileName":"data\\teapot.dat","position":[-10,0,-50],"size":5},"tiger0":{"fileName":"data\\tigre_sumatra_sketchfab.obj","position":[30,10,100],"size":30},"tiger1":{"fileName":"data\\tigre_sumatra_sketchfab.obj","position":[-100,10,0],"size":30},"tiger2":{"fileName":"data\\tigre_sumatra_sketchfab.obj","position":[10,10,-20],"size":30},"tiger3":{"fileName":"data\\tigre_sumatra_sketchfab.obj","position":[70,10,-70],"size":30},"tiger4":{"fileName":"data\\tigre_sumatra_sketchfab.obj","position":[0,0,0],"size":30},"tree0":{"fileName":"data\\PineTree.obj","position":[10,0,10],"size":50},"tree1":{"fileName":"data\\PineTree.obj","position":[5,0,-10],"size":50},"tree10":{"fileName":"data\\PineTree.obj","position":[-170,0,30],"size":50},"tree11":{"fileName":"data\\PineTree.obj","position":[-200,0,-100],"size":50},"tree12":{"fileName":"data\\PineTree.obj","position":[-100,0,50],"size":50},"tree13":{"fileName":"data\\PineTree.obj","position":[20,0,-150],"size":50},"tree14":{"fileName":"data\\PineTree.obj","position":[-400,0,-140],"size":50},"tree2":{"fileName":"data\\PineTree.obj","position":[-15,0,5],"size":50},"tree3":{"fileName":"data\\PineTree.obj","position":[20,0,10],"size":50},"tree4":{"fileName":"data\\PineTree.obj","position":[50,0,50],"size":50},"tree5":{"fileName":"data\\PineTree.obj","position":[200,0,0],"size":50},"tree6":{"fileName":"data\\PineTree.obj","position":[-80,0,10],"size":50},"tree7":{"fileName":"data\\PineTree.obj","position":[-10,0,-100],"size":50},"tree8":{"fileName":"data\\PineTree.obj","position":[90,0,-70],"size":50},"tree9":{"fileName":"data\\PineTree.obj","position":[200,0,-40],"size":50}}}
+{
+  "c": {
+    "camera1": {
+      "far": 5000.0,
+      "lookat": [ 0, 50, 0 ],
+      "position": [ 0, 20, 100 ]
+    }
+  },
+  "g": {
+    "ground1": {
+      "fileName": "data\\heightmap.bmp",
+      "position": [ -2500, -200, -3000 ],
+      "size": 1000
+    }
+  },
+  "o": {
+    "rover": {
+      "fileName": "data\\Mars Rock Collecter.obj",
+      "position": [ -30, 0, 130 ],
+      "size": 5
+    },
+    "teapot": {
+      "fileName": "data\\teapot.dat",
+      "position": [ -10, 0, -50 ],
+      "size": 5
+    },
+    "tiger0": {
+      "fileName": "data\\tigre_sumatra_sketchfab.obj",
+      "position": [ 30, 10, 100 ],
+      "size": 30
+    },
+    "tiger1": {
+      "fileName": "data\\tigre_sumatra_sketchfab.obj",
+      "position": [ -100, 10, 0 ],
+      "size": 30
+    },
+    "tiger2": {
+      "fileName": "data\\tigre_sumatra_sketchfab.obj",
+      "position": [ 10, 10, -20 ],
+      "size": 30
+    },
+    "tiger3": {
+      "fileName": "data\\tigre_sumatra_sketchfab.obj",
+      "position": [ 70, 10, -70 ],
+      "size": 30
+    },
+    "tiger4": {
+      "fileName": "data\\tigre_sumatra_sketchfab.obj",
+      "position": [ 0, 0, 0 ],
+      "size": 30
+    },
+    "tree0": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 10, 0, 10 ],
+      "size": 50
+    },
+    "tree1": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 5, 0, -10 ],
+      "size": 50
+    },
+    "tree10": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ -170, 0, 30 ],
+      "size": 50
+    },
+    "tree11": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ -200, 0, -100 ],
+      "size": 50
+    },
+    "tree12": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ -100, 0, 50 ],
+      "size": 50
+    },
+    "tree13": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 20, 0, -150 ],
+      "size": 50
+    },
+    "tree14": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ -400, 0, -140 ],
+      "size": 50
+    },
+    "tree2": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ -15, 0, 5 ],
+      "size": 50
+    },
+    "tree3": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 20, 0, 10 ],
+      "size": 50
+    },
+    "tree4": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 50, 0, 50 ],
+      "size": 50
+    },
+    "tree5": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 200, 0, 0 ],
+      "size": 50
+    },
+    "tree6": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ -80, 0, 10 ],
+      "size": 50
+    },
+    "tree7": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ -10, 0, -100 ],
+      "size": 50
+    },
+    "tree8": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 90, 0, -70 ],
+      "size": 50
+    },
+    "tree9": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 200, 0, -40 ],
+      "size": 50
+    },
+    "tree9": {
+      "fileName": "data\\PineTree.obj",
+      "position": [ 200, 0, -40 ],
+      "size": 50
+    },
+    "house": {
+      "fileName": "data\\Dio.obj",
+      "position": [ -30, 0, 10 ],
+      "size": 1
+    },
+    "gunman": {
+      "fileName": "data\\centaur02.obj",
+      "position": [ -60, 0, 70 ],
+      "size": 1
+    }
+  }
+}

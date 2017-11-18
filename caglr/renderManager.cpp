@@ -81,6 +81,8 @@ namespace CAGLR {
 
 		CAGLE::ResourceManager& gResourceManager = CAGLE::ResourceManager::getInstance();
 
+
+
 		/** View and Projection Matrix */
 		glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, gResourceManager.getCamera("camera1")->loadViewMatrix());
 		glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, gResourceManager.getCamera("camera1")->loadProjectionMatrix());
@@ -96,16 +98,16 @@ namespace CAGLR {
 		glEnableVertexAttribArray(vertexPositionID);
 		glEnableVertexAttribArray(normalID);
 
-		/* Each object*/
 
+		/* Each object*/
 		for (const auto& each : gResourceManager.get_all_objects())
 		{
 			renderObject(each.second);
 		}
 
 
-		/* Terrain render */
-		renderTerrain(gResourceManager.getTerrain());
+		/* Ground render*/
+		renderGround(gResourceManager.getGround("ground1"));
 
 
 		glDisableVertexAttribArray(vertexPositionID);
@@ -119,8 +121,11 @@ namespace CAGLR {
 	}
 
 
-	void RenderManager::renderTerrain(CAGLE::Terrain* terrain)
+	void RenderManager::renderGround(CAGLE::Ground* ground)
 	{
+		/** Model Matrix */
+		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, ground->loadModelMatrix());
+
 		/** Vertex */
 		glVertexAttribPointer(
 			vertexPositionID,
@@ -128,7 +133,7 @@ namespace CAGLR {
 			GL_FLOAT,
 			GL_FALSE,
 			sizeof(GLint) * 3,
-			terrain->Vertexs()
+			ground->Vertexs()
 		);
 
 		/** Normal */
@@ -138,11 +143,24 @@ namespace CAGLR {
 			GL_FLOAT,
 			GL_FALSE,
 			sizeof(GLint) * 3,
-			terrain->Normals()
+			ground->Normals()
 		);
 
+		glUniform4f(colorID, 1.f* (0x66CC66 / 0x10000) / 0xFF,
+			1.f* (0x66CC66 / 0x100 % 0x100) / 0xFF,
+			1.f* (0x66CC66 % 0x100) / 0xFF,
+			0.0f
+		);
 		/** Draw call */
-		glDrawElements(GL_TRIANGLE_STRIP, terrain->indices_size(), GL_UNSIGNED_INT, terrain->Indices());
+		glDrawElements(GL_TRIANGLE_STRIP, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
+
+		/** Color */
+		glUniform4f(colorID, 1.f* (0xCC0000 / 0x10000) / 0xFF,
+			1.f* (0xCC0000 / 0x100 % 0x100) / 0xFF,
+			1.f* (0xCC0000 % 0x100) / 0xFF,
+			0.0f
+		);
+		glDrawElements(GL_LINES, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
 	}
 
 

@@ -47,7 +47,7 @@ namespace CAGLR {
 
 		void renderObject(CAGLE::Object* object);
 
-		void renderTerrain(CAGLE::Terrain* terrain);
+		void renderGround(CAGLE::Ground* ground);
 
 		GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
 	};

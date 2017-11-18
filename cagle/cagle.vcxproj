@@ -136,6 +136,7 @@
     <ClCompile Include="terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ground.h" />
     <ClInclude Include="resourceManager.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="mvp.h" />

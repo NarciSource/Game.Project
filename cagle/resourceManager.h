@@ -26,6 +26,7 @@
 #include "camera.h"
 #include "light.h"
 #include "player.h"
+#include "ground.h"
 #include "terrain.h"
 
 namespace CAGLE {
@@ -60,7 +61,9 @@ namespace CAGLE {
 		bool loadModel(const std::string name, const std::string filename);
 
 
+		Ground& newGround(const std::string name);
 
+		Ground* getGround(const std::string name);
 
 
 
@@ -120,13 +123,12 @@ namespace CAGLE {
 
 
 		
-
 		/***************** Terrain manage ********************************************************/
-		Terrain& newTerrain(const std::string filename);
+		Terrain* newTerrain(const std::string filename);
 		
-		Terrain* getTerrain();
+		Terrain* getTerrain(const std::string name);
 
-		void	 deleteTerrain();
+		void	 deleteTerrain(const std::string name);
 		/***************************************************************************************/
 
 		void refresh(void);
@@ -148,12 +150,15 @@ namespace CAGLE {
 
 		std::map<std::string, Model*> models;
 
-		std::map<std::string, Camera*> cameras;
 
-		Light* onlyLight;
-
-		Terrain* terrain;
+		std::map<std::string, Ground*> grounds;
 		
+		std::map<std::string, Terrain*> terrain;
+
+
+		std::map<std::string, Camera*> cameras;
+		
+		Light* onlyLight;
 
 
 		inline bool const hasObjects(const std::string name);

@@ -10,6 +10,30 @@
 
 namespace CAGLE {
 
+	Ground& ResourceManager::newGround(const std::string name)
+	{
+		auto ret = grounds.insert({ name,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Ground();
+		}
+		else { // overlap			
+			std::cerr << "Already exist " << name << std::endl;
+		}
+		return *grounds[name];
+	}
+
+	Ground* ResourceManager::getGround(const std::string name)
+	{
+		if (grounds.find(name) != grounds.end())
+		{
+			return grounds[name];
+		}
+		else {
+			return nullptr;
+		}
+	}
+
 	Object& ResourceManager::newObject(const std::string name)
 	{
 		auto ret = objects.insert({ name,nullptr });
@@ -223,20 +247,46 @@ namespace CAGLE {
 
 
 
-	Terrain& ResourceManager::newTerrain(const std::string filename)
+	Terrain* ResourceManager::newTerrain(const std::string filename)
 	{
-		terrain = Terrain::load_terrain(filename);
-		return *terrain;
+		std::ifstream in(filename);
+		if (!in.good())
+		{
+			std::cerr << filename << " doesn't exist" << std::endl;
+			in.close();
+			throw;
+		}
+		in.close();
+
+		/** model make */
+		auto ret = terrain.insert({ filename,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Terrain();
+			ret.first->second->load_terrain(filename);
+		}
+		return terrain[filename];
 	}
 
-	Terrain* ResourceManager::getTerrain()
+	Terrain* ResourceManager::getTerrain(const std::string name)
 	{
-		return terrain;
+		if (terrain.find(name) != terrain.end())
+		{
+			return terrain[name];
+		}
+		else {
+			return nullptr;
+		}
 	}
 
-	void ResourceManager::deleteTerrain()
+	void ResourceManager::deleteTerrain(const std::string name)
 	{
-		delete terrain;
+		auto it = terrain.find(name);
+		if (it != terrain.end())
+		{
+			delete it->second;
+			terrain.erase(it);
+		}
 	}
 
 

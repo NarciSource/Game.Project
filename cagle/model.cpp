@@ -28,7 +28,7 @@ namespace CAGLE {
 		std::vector<unsigned int> localNormalIndices;
 
 		std::string line;
-		const static std::regex vPattern{ R"(v\s(-?\d+.?\d*)\s(-?\d+.?\d*)\s(-?\d+.?\d*))" }; // (x y z)
+		const static std::regex vPattern{ R"(v\s+(-?\d+.?\d*)\s(-?\d+.?\d*)\s(-?\d+.?\d*))" }; // (x y z)
 		const static std::regex vtPattern{ R"(vt\s(-?\d+.?\d*)\s(-?\d+.?\d*)(?:\s(-?\d+.?\d*)){0,1})" }; // (x y z) or (x y)
 		const static std::regex vnPattern{ R"(vn\s(-?\d+.?\d*)\s(-?\d+.?\d*)\s(-?\d+.?\d*))" }; // (x y z)
 		const static std::regex fPattern{ R"(f\s(\d+)/(\d)*/(\d+)\s(\d+)/(\d)*/(\d+)\s(\d+)/(\d)*/(\d+))" }; //(x1/y1/z1 x2/y2/z2 x3/y3/z3) or (x1//z1 x2//z2 x3//z3)

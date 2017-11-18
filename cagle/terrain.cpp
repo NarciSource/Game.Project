@@ -65,8 +65,9 @@ namespace CAGLE {
 
 
 
-	Terrain::Terrain(int h, int w) :length(h), width(w)
+	void Terrain::init(int h, int w)
 	{
+		length = h; width = w;
 		vertexs = new float*[length * 3];
 		vertexs[0] = new float[length*width * 3];
 
@@ -91,7 +92,7 @@ namespace CAGLE {
 		delete[] indices;
 	}
 
-	Terrain* Terrain::load_terrain(const std::string filename)
+	void Terrain::load_terrain(const std::string filename)
 	{
 		Image& img = Image::load_bmp(filename);
 
@@ -109,11 +110,11 @@ namespace CAGLE {
 		}
 
 		/* terrain compute */
-		Terrain* terrain = new Terrain(img.Height(), img.Width());
+		init(img.Height(), img.Width());
 
-		terrain->compute_vertex(heights_map);
-		terrain->compute_normal(heights_map);
-		terrain->compute_indice();		
+		compute_vertex(heights_map);
+		compute_normal(heights_map);
+		compute_indice();		
 
 
 		/* clear */
@@ -121,8 +122,6 @@ namespace CAGLE {
 			delete[] heights_map[i];
 		delete[] heights_map;
 		img.close();
-
-		return terrain;
 	}
 
 	void Terrain::compute_vertex(float** hmap)
