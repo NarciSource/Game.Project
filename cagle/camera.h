@@ -58,10 +58,6 @@ namespace CAGLE {
 	/*******************************/
 	class Camera {
 	public:
-
-		void move(const int direct, const float velocity);
-
-
 		/** Programable Function */
 
 		void lookAround(const int direct, const float velocity);

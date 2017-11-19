@@ -110,6 +110,10 @@ namespace CAGLM {
 		* It muliplied from back to front, to aid in gl carcuration.*/
 		Mat4& operator*=(const Mat4 ref)						 { return *this = ref * (*this); }
 
+
+		Vec3<float> operator*(const Vec3<float> ref) const;
+
+
 		
 		/* !!!
 		* In gl, row is counted and then column is counted, 

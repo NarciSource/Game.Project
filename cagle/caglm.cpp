@@ -45,6 +45,19 @@ namespace CAGLM {
 
 
 
+	Vec3<float> Mat4::operator*(const Vec3<float> ref) const
+	{
+		float x, y, z;
+
+		x = element[0] * ref.X() + element[4] * ref.Y() + element[8] * ref.Z();
+		y = element[1] * ref.X() + element[5] * ref.Y() + element[9] * ref.Z();
+		z = element[2] * ref.X() + element[6] * ref.Y() + element[10] * ref.Z();
+		
+		return Vec3<float>(x, y, z);
+	}
+
+
+
 
 	/* !!!
 	* In gl, row is counted and then column is counted,

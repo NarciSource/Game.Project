@@ -25,83 +25,30 @@ namespace CAGLE {
 
 
 
-
-
-
-
-
-
-	void Camera::move(const int direct, const float velocity)
-	{
-		CAGLM::Vec3<float> v = lookAt - position;	v.Y(0);
-		v = CAGLM::Vec3<float>::Normalize(v);
-		CAGLM::Vec3<float> n = CAGLM::Vec3<float>::Cross(v, CAGLM::Vec3<float>(0, 1, 0));
-		switch (direct)
-		{
-		case CAGLE_FORWARD:
-			position += v * velocity;
-			lookAt += v * velocity;
-			break;
-		case CAGLE_BACKWARD:
-			position -= v * velocity;
-			lookAt -= v * velocity;
-			break;
-		case CAGLE_LEFT:
-			position += n * velocity;
-			lookAt += n * velocity;
-			break;
-		case CAGLE_RIGHT:
-			position -= n * velocity;
-			lookAt -= n * velocity;
-			break;
-		case CAGLE_UP:
-			position.Y(position.Y() + 5 * velocity);
-			lookAt.Y(lookAt.Y() + 5 * velocity);
-			break;
-		case CAGLE_DOWN:
-			position.Y(position.Y() - 5 * velocity);
-			lookAt.Y(lookAt.Y() - 5 * velocity);
-			break;
-		default:
-			throw;
-		}
-		shutter();
-	}
-
-
-
-
-
 	void Camera::lookAround(const int direct, const float velocity)
 	{
-		float theta = 10.f*M_PI / 180 * velocity;
-		float x, z;
-
+		CAGLM::Mat4 rotateMat;
+		
 		switch (direct)
 		{
 		case CAGLE_LEFT:
-			x = (lookAt.X() - position.X()) * cos(theta) - (lookAt.Z() - position.Z())*sin(theta) + position.X();
-			z = (lookAt.X() - position.X()) * sin(theta) + (lookAt.Z() - position.Z())*cos(theta) + position.Z();
-			lookAt.X(x);		lookAt.Z(z);
+			rotateMat.rotatef(velocity, 0, -1, 0);
 			break;
 		case CAGLE_RIGHT:
-			theta *= -1;
-			x = (lookAt.X() - position.X()) * cos(theta) - (lookAt.Z() - position.Z())*sin(theta) + position.X();
-			z = (lookAt.X() - position.X()) * sin(theta) + (lookAt.Z() - position.Z())*cos(theta) + position.Z();
-			lookAt.X(x);		lookAt.Z(z);
+			rotateMat.rotatef(velocity, 0, 1, 0);
 			break;
 		case CAGLE_UP:
-			lookAt.Y(lookAt.Y() + 5 * velocity);
+			lookAt.Y(lookAt.Y() + velocity);
 			break;
 		case CAGLE_DOWN:
-			lookAt.Y(lookAt.Y() - 5 * velocity);
+			lookAt.Y(lookAt.Y() - velocity);
 			break;
 		}
 
-		yaw = CAGLM::Vec3<float>::Angle(lookAt - position, CAGLM::Vec3<float>(0, 0, 1));
-		if ((lookAt - position).X() < 0) yaw *= -1;
-		yaw *= 180 / M_PI;
+		CAGLM::Vec3<float> v = lookAt - position;
+		lookAt = rotateMat*v + position;
 
+		
 		shutter();
 	}
 

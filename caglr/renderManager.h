@@ -34,6 +34,11 @@ namespace CAGLR {
 
 		int getShadingType() { return static_cast<int>(shadingType); }
 
+		int WindowSizeX() { return windowSizeX; }
+		int WindowSizeY() { return windowSizeY; }
+		void WindowSizeX(int x) { windowSizeX = x; }
+		void WindowSizeY(int y) { windowSizeY = y; }
+
 	private:
 		GLint	windowSizeX = 2048;
 		GLint	windowSizeY = 1024;

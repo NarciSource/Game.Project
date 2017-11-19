@@ -71,9 +71,9 @@ namespace CAGLE {
 
 		/***************** Player manage *******************************************************/
 
-		Player* player;
+		Player& newPlayer(const std::string name);
 
-		bool getPlayer();
+		Player* getPlayer(const std::string name);
 		/***************************************************************************************/
 
 
@@ -155,6 +155,8 @@ namespace CAGLE {
 		
 		std::map<std::string, Terrain*> terrain;
 
+
+		std::map<std::string, Player*> players;
 
 		std::map<std::string, Camera*> cameras;
 		

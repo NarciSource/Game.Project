@@ -65,6 +65,12 @@ namespace CAGLE {
 		
 
 		/* get */
+		CAGLM::Vec3<float>	Normal(const int x, const int y) { 
+			return CAGLM::Vec3<float>(normals[x][y*3],normals[x][y*3+1],normals[x][y*3+2]);
+		}
+		
+		float Height(const int x, const int y) { return vertexs[x][y * 3 + 1]; }
+
 		const int indices_size() { return (length * 2 - 2)*(width + 1); }
 
 		float*	Vertexs() { return vertexs[0]; }

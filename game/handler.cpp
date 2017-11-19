@@ -97,7 +97,7 @@ void idle(int value)
 	/** Camera jump action effected on gravity */
 	if (gResourceManager.getCamera("camera1")->Position().Y() > 10) //gravity
 	{
-		gResourceManager.getCamera("camera1")->move(CAGLE_DOWN, 0.03);
+	//	gResourceManager.getCamera("camera1")->move(CAGLE_DOWN, 0.03);
 	}
 
 
@@ -138,20 +138,23 @@ void mouseClickHandler(const int button, const int state, const int x, const int
 /**** Handler: Mouse moving ****/
 void mouseMoveHandler(const int x, const int y)
 {
-	auto& gResourceManager = CAGLE::ResourceManager::getInstance();
+	auto player = CAGLE::ResourceManager::getInstance().getPlayer("player1");
 
-	static int beforeX, beforeY;
+	int centerX = glutGet(GLUT_WINDOW_WIDTH) / 2;
+	int centerY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
 
-	if (x - beforeX < 0)
-		gResourceManager.getCamera("camera1")->lookAround(CAGLE_LEFT, -(x - beforeX)* sensitivity*0.03);
-	if (x - beforeX > 0)
-		gResourceManager.getCamera("camera1")->lookAround(CAGLE_RIGHT, (x - beforeX)* sensitivity*0.03);
-	if (y - beforeY < 0)
-		gResourceManager.getCamera("camera1")->lookAround(CAGLE_UP, -(y - beforeY)* sensitivity *1.5);
-	if (y - beforeY > 0)
-		gResourceManager.getCamera("camera1")->lookAround(CAGLE_DOWN, (y - beforeY)* sensitivity *1.5);
 
-	beforeX = x;	beforeY = y;
+	if (x < centerX)
+		player->lookAround(CAGLE_LEFT, sensitivity);
+	if (x > centerX)
+		player->lookAround(CAGLE_RIGHT, sensitivity);
+	if (y < centerY)
+		player->lookAround(CAGLE_UP, sensitivity *1.5);
+	if (y > centerY)
+		player->lookAround(CAGLE_DOWN, sensitivity *1.5);
+
+	glutWarpPointer(glutGet(GLUT_WINDOW_WIDTH)/2, glutGet(GLUT_WINDOW_HEIGHT)/2);
+	
 	printF(printCamera);
 }
 /**** Handler: Keyboard typing ****/
@@ -159,28 +162,30 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 {
 	auto& gResourceManager = CAGLE::ResourceManager::getInstance();
 	auto& gRenderManager = CAGLR::RenderManager::getInstance();
-
+	auto player = gResourceManager.getPlayer("player1");
+	auto ground = gResourceManager.getGround("ground1");
 	static bool flagShit = true;
+
 
 	switch (key)
 	{
 		/** Character Moving */
 	case 'w':
-		gResourceManager.getCamera("camera1")->move(CAGLE_FORWARD, sensitivity); break;
+		player->move(ground,CAGLE::Direct::Forward, sensitivity); break;
 	case 'W':
-		gResourceManager.getCamera("camera1")->move(CAGLE_FORWARD, sensitivity * 3); break;
+		player->move(ground, CAGLE::Direct::Forward, sensitivity * 3); break;
 	case 's':
-		gResourceManager.getCamera("camera1")->move(CAGLE_BACKWARD, sensitivity); break;
+		player->move(ground, CAGLE::Direct::Backward, sensitivity); break;
 	case 'S':
-		gResourceManager.getCamera("camera1")->move(CAGLE_BACKWARD, sensitivity * 3); break;
+		player->move(ground, CAGLE::Direct::Backward, sensitivity * 3); break;
 	case 'a':
-		gResourceManager.getCamera("camera1")->move(CAGLE_LEFT, sensitivity); break;
+		player->move(ground, CAGLE::Direct::Left, sensitivity); break;
 	case 'A':
-		gResourceManager.getCamera("camera1")->move(CAGLE_LEFT, sensitivity * 3); break;
+		player->move(ground, CAGLE::Direct::Left, sensitivity * 3); break;
 	case 'd':
-		gResourceManager.getCamera("camera1")->move(CAGLE_RIGHT, sensitivity); break;
+		player->move(ground, CAGLE::Direct::Right, sensitivity); break;
 	case 'D':
-		gResourceManager.getCamera("camera1")->move(CAGLE_RIGHT, sensitivity * 3); break;
+		player->move(ground, CAGLE::Direct::Right, sensitivity * 3); break;
 
 
 		/** Shader type changing */
@@ -225,18 +230,20 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 
 		/** Shid down/up */
 	case 'z':
-		if (flagShit) gResourceManager.getCamera("camera1")->move(CAGLE_DOWN, sensitivity);
-		else gResourceManager.getCamera("camera1")->move(CAGLE_UP, sensitivity);
+		
+//		if (flagShit) gResourceManager.getCamera("camera1")->move(CAGLE_DOWN, sensitivity);
+//		else gResourceManager.getCamera("camera1")->move(CAGLE_UP, sensitivity);
 		flagShit = !flagShit;
 		break;
 		/** Jump */
 	case 32: // space bar = Jump
-		gResourceManager.getCamera("camera1")->move(CAGLE_UP, sensitivity * 3);
+//		gResourceManager.getCamera("camera1")->move(CAGLE_UP, sensitivity * 3);
 		break;
 		
 	case 13:
 		glutFullScreen();
-			break;
+		std::cout << "wsize= "<<glutGet(GLUT_WINDOW_WIDTH) << " " << glutGet(GLUT_WINDOW_HEIGHT) << std::endl;
+		break;
 		/** Auto sunset */
 	case 't':
 		flagTimeFast = !flagTimeFast;

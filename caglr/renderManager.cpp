@@ -197,7 +197,7 @@ namespace CAGLR {
 			1.f* (0xCC0000 % 0x100) / 0xFF,
 			0.0f
 		);
-		glDrawElements(GL_LINES, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
+		glDrawElements(GL_LINE_STRIP, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
 	}
 
 

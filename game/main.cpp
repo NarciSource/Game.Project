@@ -22,9 +22,6 @@ void main(int argc, char* argv[]) {
 	gRenderManager.display();
 
 
-
-	
-
 	/******** Handler => handler.cpp **********/
 	glutReshapeFunc(changeSize);	
 //	glutIdleFunc(idle);
@@ -35,7 +32,7 @@ void main(int argc, char* argv[]) {
 	glutPassiveMotionFunc(mouseMoveHandler);
 	/****************************************/
 
-	ShowCursor(false);
+//	ShowCursor(false);
 	glutMainLoop();
 }
 
@@ -67,6 +64,10 @@ void componentInit()
 		camera.LookAt(CAGLM::Vec3<float>(list["lookat"][0], list["lookat"][1], list["lookat"][2]));
 		camera.Far(list["far"]);
 	}
+
+	auto& player = gResourceManager.newPlayer("player1");
+	player.bind(gResourceManager.getCamera("camera1"));
+
 
 	/** make object */
 	for (auto it = save["o"].begin(); it != save["o"].end(); it++)

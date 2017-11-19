@@ -47,6 +47,19 @@ namespace CAGLE {
 		return *objects[name];
 	}
 
+	Player& ResourceManager::newPlayer(const std::string name)
+	{
+		auto ret = players.insert({ name,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Player();
+		}
+		else { // overlap			
+			std::cerr << "Already exist " << name << std::endl;
+		}
+		return *players[name];
+	}
+
 	Model* ResourceManager::newModel(const std::string filename)
 	{
 		std::ifstream in(filename);
@@ -73,6 +86,17 @@ namespace CAGLE {
 		if (objects.find(name) != objects.end())
 		{
 			return objects[name];
+		}
+		else {
+			return nullptr;
+		}
+	}
+
+	Player* ResourceManager::getPlayer(const std::string name)
+	{
+		if (players.find(name) != players.end())
+		{
+			return players[name];
 		}
 		else {
 			return nullptr;
@@ -162,19 +186,6 @@ namespace CAGLE {
 	}
 
 
-
-
-
-
-	bool ResourceManager::getPlayer()
-	{
-		if (player == nullptr)
-		{
-			player = new Player();
-		}
-
-		return player;
-	}
 
 
 	bool ResourceManager::isCollision(const std::string name1, const std::string name2)
