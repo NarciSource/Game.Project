@@ -27,8 +27,10 @@ namespace CAGLE {
 		{
 			CAGLM::Vec3<float> v = eye->LookAt() - eye->Position();
 			CAGLM::Vec3<float> n;
+
+			static const int player_tall = 10;
 			
-			float height = ground->Height(eye->Position().X(), eye->Position().Z());
+			float height = ground->Height(eye->Position().X(), eye->Position().Z()) + player_tall;
 			v.Y(0);
 			std::cout << "height = " << height<<std::endl;
 			v = CAGLM::Vec3<float>::Normalize(v);
@@ -43,17 +45,18 @@ namespace CAGLE {
 				break;
 			case Direct::Backward:
 				eye->Position(eye->Position() - v*velocity);
+				eye->Position(CAGLM::Vec3<float>(eye->Position().X(), height, eye->Position().Z()));
 				eye->LookAt(eye->LookAt() - v*velocity);
 				break;
 			case Direct::Left:
 				eye->Position(eye->Position() + n*velocity);
+				eye->Position(CAGLM::Vec3<float>(eye->Position().X(), height, eye->Position().Z()));
 				eye->LookAt(eye->LookAt() + n*velocity);
-				break;
 				break;
 			case Direct::Right:
 				eye->Position(eye->Position() - n*velocity);
+				eye->Position(CAGLM::Vec3<float>(eye->Position().X(), height, eye->Position().Z()));
 				eye->LookAt(eye->LookAt() - n*velocity);
-				break;
 				break;
 			default:
 				throw;

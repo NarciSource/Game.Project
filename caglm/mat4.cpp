@@ -3,7 +3,7 @@
 /**   ==Chung Ang university GL Mathematics		**/
 /*************************************************/
 #include <iostream>
-#include "caglm.h"
+#include "mat4.h"
 
 namespace CAGLM {
 

@@ -15,55 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="object.cpp">
+    <ClCompile Include="image.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="light.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="mvp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="model.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="terrain.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="resourceManager.cpp">
+    <ClCompile Include="mat4.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="object.h">
+    <ClInclude Include="image.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="vec3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
+    <ClInclude Include="mat4.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="mvp.h">
+    <ClInclude Include="array3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="terrain.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="resourceManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ground.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="array3.hpp">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

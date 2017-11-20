@@ -71,9 +71,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(Configuration)\</OutDir>
+    <IncludePath>..\caglm;$(IncludePath)</IncludePath>
+    <LibraryPath>..\caglm\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(Configuration)\</OutDir>
+    <IncludePath>..\caglm;$(IncludePath)</IncludePath>
+    <LibraryPath>..\caglm\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(Configuration)\</OutDir>
@@ -129,7 +133,6 @@
     <ClCompile Include="resourceManager.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="mvp.cpp" />
-    <ClCompile Include="caglm.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="object.cpp" />
@@ -140,7 +143,6 @@
     <ClInclude Include="resourceManager.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="mvp.h" />
-    <ClInclude Include="caglm.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="object.h" />

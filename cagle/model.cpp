@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "caglm.h"
+#include "mat4.h"
 #include "model.h"
 
 

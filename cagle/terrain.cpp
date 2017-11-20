@@ -1,100 +1,26 @@
+#include <algorithm>
 #include "terrain.h"
 
 namespace CAGLE {
-	Image::Image(int h, int w) :height(h), width(w)
+
+
+	void Terrain::init(int l, int w)
 	{
-		for (int i = 0; i < height; i++)
-		{
-			std::vector<Pixel> each;
-			each.resize(width);
-			pixels.push_back(each);
-		}
-	}
+		length = l; width = w;
+		vertexs.set(l, w, 3);
+		normals.set(l, w, 3);
 
-	Image& Image::load_bmp(const std::string filename)
-	{
-		std::ifstream fin(filename, std::ios::in | std::ios::binary);
-
-		/** read header */
-		BITMAPFILEHEADER bmp_header;
-		BITMAPINFOHEADER bmp_info;
-
-		fin.read((char*)&bmp_header, sizeof(BITMAPFILEHEADER));
-		fin.read((char*)&bmp_info, sizeof(BITMAPINFOHEADER));
-
-		/** chk */
-		if (bmp_header.bfType != 0x4D42)
-		{
-			std::cout << "isn't bitmap" << std::endl;
-		}
-	/*	if (bmp_info.biBitCount != 8) {
-			std::cout << "color?" << std::endl;
-		}*/
-
-
-		Image* img = new Image(bmp_info.biHeight, bmp_info.biWidth);
-
-		UCHAR* buffer = new UCHAR[bmp_info.biSizeImage];
-
-		/** read */
-		fin.read((char*)buffer, bmp_info.biSizeImage);
-
-		int r, g, b;
-		for (int i = 0; i < bmp_info.biHeight; i++)
-		{
-			for (int j = 0; j < bmp_info.biWidth; j++)
-			{
-				b = buffer[i * bmp_info.biWidth * 3 + j * 3];
-				g = buffer[i * bmp_info.biWidth * 3 + j * 3 + 1];
-				r = buffer[i * bmp_info.biWidth * 3 + j * 3 + 2];
-
-				img->pixels[i][j] = Pixel(r, g, b);
-			}
-		}
-
-		fin.close();
-		delete[] buffer;
-		return *img;
-	}
-
-	void Image::close()
-	{
-		this->~Image();
-	}
-
-
-
-
-	void Terrain::init(int h, int w)
-	{
-		length = h; width = w;
-		vertexs = new float*[length * 3];
-		vertexs[0] = new float[length*width * 3];
-
-		normals = new float*[length * 3];
-		normals[0] = new float[length*width * 3];
-
-		indices = new int[(length * 2 - 2)*(width + 1)];
-
-		for (int i = 1; i < length; i++)
-		{
-			vertexs[i] = vertexs[i - 1] + width * 3;
-			normals[i] = normals[i - 1] + width * 3;
-		}
+		indices = new int[(l * 2 - 2)*(w + 1)];
 	}
 
 	Terrain::~Terrain()
 	{
-		delete[] vertexs[0];
-		delete[] vertexs;
-		delete[] normals[0];
-		delete[] normals;
 		delete[] indices;
 	}
 
 	void Terrain::load_terrain(const std::string filename)
 	{
-		Image& img = Image::load_bmp(filename);
+		CAGLM::Image& img = CAGLM::Image::load_bmp(filename);
 
 		/* heights map */
 		float** heights_map;
@@ -105,7 +31,7 @@ namespace CAGLE {
 			heights_map[i] = new float[img.Width()];
 			for (int j = 0; j < img.Width(); j++)
 			{
-				heights_map[i][j] = img.Pixels(i, j).r / 255.f;
+				heights_map[i][j] = static_cast<float>(img.Pixel(i,j,0)) / 255.f;
 			}
 		}
 
@@ -126,15 +52,13 @@ namespace CAGLE {
 
 	void Terrain::compute_vertex(float** hmap)
 	{
-		static const float scale = 0.1f;
-
 		for (int i = 0; i < length; i++)
 		{
 			for (int j = 0; j < width; j++)
 			{
-				vertexs[i][3 * j] = i * scale;
-				vertexs[i][3 * j + 1] = hmap[i][j];
-				vertexs[i][3 * j + 2] = j * scale;
+				vertexs[i][j][0] = i*1.f;
+				vertexs[i][j][1] = hmap[i][j]*curve_level;
+				vertexs[i][j][2] = j*1.f;
 			}
 		}
 	}
@@ -169,9 +93,9 @@ namespace CAGLE {
 
 				n = CAGLM::Vec3<float>::Normalize(n1 + n2 + n3 + n4);
 
-				normals[i][j * 3] += n.X();
-				normals[i][j * 3 + 1] += n.Y();
-				normals[i][j * 3 + 2] += n.Z();
+				normals[i][j][0] += n.X();
+				normals[i][j][1] += n.Y();
+				normals[i][j][2] += n.Z();
 			}
 		}
 	}

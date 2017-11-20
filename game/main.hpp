@@ -2,6 +2,7 @@
 
 #pragma comment(lib,"glut32.lib")
 #pragma comment(lib,"glew32.lib")
+#pragma comment(lib,"caglm.lib")
 #pragma comment(lib,"cagle.lib")
 #pragma comment(lib,"caglr.lib")
 
@@ -14,6 +15,7 @@
 
 #include "object.h"
 #include "model.h"
+#include "array3.h"
 
 
 

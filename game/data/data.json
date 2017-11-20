@@ -10,7 +10,7 @@
     "ground1": {
       "fileName": "data\\heightmap.bmp",
       "position": [ -2500, -200, -3000 ],
-      "size": 1000
+      "size": 100
     }
   },
   "o": {

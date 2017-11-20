@@ -31,7 +31,7 @@ namespace CAGLE {
 			Match the world coordinate system to the terrain coordinate system */			
 			CAGLM::Vec3<float> r(x, 0, z);
 
-			CAGLM::Mat4 s; s.scalef(1 / Size() * 10);
+			CAGLM::Mat4 s; s.scalef(1 / Size());
 			CAGLM::Mat4 t; t.translatef(-Position().X(), 0, -Position().Z());
 
 			CAGLM::Vec3<float> r_hat = s*(t*r);
@@ -71,25 +71,8 @@ namespace CAGLE {
 
 			answer = (ha*w_q + hb*w_p)*l_q +
 				(hc*w_q + hd*w_p)*l_p;
-
 			
-			int xx = r_hat.X();
-			int zz = r_hat.Z();
-
-		//	std::cout << std::endl;
-		//	std::cout << "w_q=" << w_q << " ";
-		//	std::cout << "w_p=" << w_p << " ";
-		//	std::cout << "l_q=" << l_q << " ";
-		//	std::cout << "l_p=" << l_p << " ";
-		//	std::cout << "ha=" << ha << " ";
-		//	std::cout << "hb=" << hb << " ";
-		//	std::cout << "hc=" << hc << " ";
-		//	std::cout << "hd=" << hd << " ";
-
-		//	std::cout << std::endl;
-
-			if (xx < 0 || zz < 0) return 0;
-			return answer*Size()+Position().Y() + 10;
+			return answer*Size()+Position().Y();
 		}
 
 

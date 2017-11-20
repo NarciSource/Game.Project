@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{E0F0BF99-B9C7-48E8-9B2B-255CF9DE77B9}</ProjectGuid>
-    <RootNamespace>caglr</RootNamespace>
+    <ProjectGuid>{EDED0939-4214-41D0-AA46-0245E5C45722}</ProjectGuid>
+    <RootNamespace>caglm</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -69,16 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\caglm;..\cagle;..\opengl\glew-2.1.0\include\GL;..\opengl\glut-3.7\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\caglm\Release;..\cagle\Release;..\opengl\glew-2.1.0\lib\Release\Win32;..\opengl\glut-3.7\lib;$(LibraryPath)</LibraryPath>
-    <TargetExt>.lib</TargetExt>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(Configuration)\</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\caglm;..\cagle;..\opengl\glew-2.1.0\include\GL;..\opengl\glut-3.7\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\caglm\Debug;..\cagle\Debug;..\opengl\glew-2.1.0\lib\Release\Win32;..\opengl\glut-3.7\lib;$(LibraryPath)</LibraryPath>
-    <TargetExt>.lib</TargetExt>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,15 +116,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="renderManager.cpp" />
-    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="mat4.cpp" />
+    <ClCompile Include="image.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="renderManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="shader\FragmentShader.frag" />
-    <None Include="shader\VertexShader.vert" />
+    <ClInclude Include="array3.h" />
+    <ClInclude Include="array3.hpp" />
+    <ClInclude Include="image.h" />
+    <ClInclude Include="mat4.h" />
+    <ClInclude Include="vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

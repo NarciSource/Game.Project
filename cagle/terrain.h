@@ -4,40 +4,11 @@
 #include <iostream>
 #include <Windows.h>
 
-#include "caglm.h"
+#include "mat4.h"
+#include "array3.h"
+#include "image.h"
 
 namespace CAGLE {
-	struct Pixel
-	{
-		Pixel() {}
-		Pixel(int r, int g, int b)
-			:r(r), g(g), b(b) {}
-		int r, g, b;
-	};
-
-	class Image
-	{
-	private:
-		int width;
-		int height;
-
-		std::vector<std::vector<Pixel> > pixels;
-
-
-	private:
-		Image(int h, int w);
-
-	public:
-		static Image& load_bmp(const std::string filename);
-
-		void close();
-
-		/* get */
-		const int Width() { return width; }
-		const int Height() { return height; }
-		const Pixel Pixels(const int x, const int y) { return pixels[x][y]; }
-	};
-
 
 	class Terrain
 	{
@@ -45,12 +16,13 @@ namespace CAGLE {
 		int length;
 		int width;
 
-		float**		vertexs;
-		float**		normals;
+		CAGLM::Array3<float>	vertexs;
+		CAGLM::Array3<float>	normals;
 		int*		indices;
 
+		const int curve_level = 10;
 	private:
-		void init(int h, int w);
+		void init(int lh, int w);
 
 		void compute_vertex(float**);
 		void compute_normal(float**);
@@ -66,15 +38,15 @@ namespace CAGLE {
 
 		/* get */
 		CAGLM::Vec3<float>	Normal(const int x, const int y) { 
-			return CAGLM::Vec3<float>(normals[x][y*3],normals[x][y*3+1],normals[x][y*3+2]);
+			return CAGLM::Vec3<float>(normals[x][y][0],normals[x][y][1],normals[x][y][2]);
 		}
 		
-		float Height(const int x, const int y) { return vertexs[x][y * 3 + 1]; }
+		float Height(const int x, const int y) { return vertexs[x][y][1]; }
 
 		const int indices_size() { return (length * 2 - 2)*(width + 1); }
 
-		float*	Vertexs() { return vertexs[0]; }
-		float*	Normals() { return normals[0]; }
+		float*	Vertexs() { return vertexs[0][0]; }
+		float*	Normals() { return normals[0][0]; }
 		int*	Indices() { return indices; }
 	};
 }

@@ -5,16 +5,23 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game\game.vcxproj", "{51021990-9973-427D-8FD5-836A531B6775}"
 	ProjectSection(ProjectDependencies) = postProject
+		{EDED0939-4214-41D0-AA46-0245E5C45722} = {EDED0939-4214-41D0-AA46-0245E5C45722}
 		{E0F0BF99-B9C7-48E8-9B2B-255CF9DE77B9} = {E0F0BF99-B9C7-48E8-9B2B-255CF9DE77B9}
 		{595DA7E7-D4B3-46D7-A166-4E8B8E8DFAA6} = {595DA7E7-D4B3-46D7-A166-4E8B8E8DFAA6}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cagle", "cagle\cagle.vcxproj", "{595DA7E7-D4B3-46D7-A166-4E8B8E8DFAA6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EDED0939-4214-41D0-AA46-0245E5C45722} = {EDED0939-4214-41D0-AA46-0245E5C45722}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caglr", "caglr\caglr.vcxproj", "{E0F0BF99-B9C7-48E8-9B2B-255CF9DE77B9}"
 	ProjectSection(ProjectDependencies) = postProject
+		{EDED0939-4214-41D0-AA46-0245E5C45722} = {EDED0939-4214-41D0-AA46-0245E5C45722}
 		{595DA7E7-D4B3-46D7-A166-4E8B8E8DFAA6} = {595DA7E7-D4B3-46D7-A166-4E8B8E8DFAA6}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caglm", "caglm\caglm.vcxproj", "{EDED0939-4214-41D0-AA46-0245E5C45722}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +55,14 @@ Global
 		{E0F0BF99-B9C7-48E8-9B2B-255CF9DE77B9}.Release|x64.Build.0 = Release|x64
 		{E0F0BF99-B9C7-48E8-9B2B-255CF9DE77B9}.Release|x86.ActiveCfg = Release|Win32
 		{E0F0BF99-B9C7-48E8-9B2B-255CF9DE77B9}.Release|x86.Build.0 = Release|Win32
+		{EDED0939-4214-41D0-AA46-0245E5C45722}.Debug|x64.ActiveCfg = Debug|x64
+		{EDED0939-4214-41D0-AA46-0245E5C45722}.Debug|x64.Build.0 = Debug|x64
+		{EDED0939-4214-41D0-AA46-0245E5C45722}.Debug|x86.ActiveCfg = Debug|Win32
+		{EDED0939-4214-41D0-AA46-0245E5C45722}.Debug|x86.Build.0 = Debug|Win32
+		{EDED0939-4214-41D0-AA46-0245E5C45722}.Release|x64.ActiveCfg = Release|x64
+		{EDED0939-4214-41D0-AA46-0245E5C45722}.Release|x64.Build.0 = Release|x64
+		{EDED0939-4214-41D0-AA46-0245E5C45722}.Release|x86.ActiveCfg = Release|Win32
+		{EDED0939-4214-41D0-AA46-0245E5C45722}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
