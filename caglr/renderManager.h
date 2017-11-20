@@ -30,6 +30,8 @@ namespace CAGLR {
 	public:
 		void display();
 
+		void info();
+
 		void setShadingType(ShadingType type);
 
 		int getShadingType() { return static_cast<int>(shadingType); }
@@ -48,6 +50,7 @@ namespace CAGLR {
 		GLint	vertexPositionID, normalID;
 		GLint	colorID, lightID, cameraID;
 		GLint	shadingTypeID;
+		GLint	textureID;
 		GLuint	texture;
 
 		ShadingType	shadingType = ShadingType::Phong;

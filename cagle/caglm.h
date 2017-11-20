@@ -132,7 +132,7 @@ namespace CAGLM {
 
 
 		/** Geometric Transformation */
-		Mat4& scalef(const float x, const float y, const float z);
+		Mat4& scalef(const float size);
 
 		Mat4& translatef(const float x, const float y, const float z);
 		Mat4& translatev(const Vec3<float> vec);

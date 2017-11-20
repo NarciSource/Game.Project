@@ -27,9 +27,9 @@ namespace CAGLE {
 		{
 			std::cout << "isn't bitmap" << std::endl;
 		}
-		if (bmp_info.biBitCount != 8) {
+	/*	if (bmp_info.biBitCount != 8) {
 			std::cout << "color?" << std::endl;
-		}
+		}*/
 
 
 		Image* img = new Image(bmp_info.biHeight, bmp_info.biWidth);

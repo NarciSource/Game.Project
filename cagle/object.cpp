@@ -39,7 +39,7 @@ namespace CAGLE {
 	void Object::refresh()
 	{
 		modelMatrix.setIdentity();
-		modelMatrix.scalef(size, size, size);
+		modelMatrix.scalef(size);
 		modelMatrix.rotatef(yaw, 0, 1, 0);
 		modelMatrix.translatev(position);
 	}

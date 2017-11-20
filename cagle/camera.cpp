@@ -92,7 +92,7 @@ namespace CAGLE {
 
 		case PROJECTION_MAPVIEW:
 			viewMatrix.lookAt(CAGLM::Vec3<float>(0, 50, 0), CAGLM::Vec3<float>(0, 0, 0), CAGLM::Vec3<float>(0, 0, 1));
-			viewMatrix.scalef(0.005f, 0.005f, 0.005f);
+			viewMatrix.scalef(0.005f);
 			projectionMatrix.parallel(left, right, bottom, top, neear, faar);
 			break;
 
@@ -121,7 +121,7 @@ namespace CAGLE {
 		left = -right;
 
 
-		viewMatrix.scalef(size, size, size);
+		viewMatrix.scalef(size);
 
 		/** Proj and View matrix refresh */
 		projectionRefresh();

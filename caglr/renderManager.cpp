@@ -20,6 +20,20 @@ namespace CAGLR {
 		});
 	}
 
+	void RenderManager::info()
+	{
+		std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+		std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+		std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl;
+		std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
+
+		if (!GLEW_VERSION_4_3) {
+			std::cerr << "OpenGL 4.3 API is not available." << std::endl;
+
+			exit(EXIT_FAILURE);
+		}
+	}
+
 	void RenderManager::setShadingType(ShadingType type)
 	{
 		shadingType = type;
@@ -160,6 +174,18 @@ namespace CAGLR {
 
 	void RenderManager::renderGround(CAGLE::Ground* ground)
 	{
+		float textureCoordinate[] = {
+			0.0f, 0.1f,
+			1.0f, 1.0f,
+			1.0f, 0.0f,
+			0.0f, 0.0f
+		};
+
+		glVertexAttribPointer(
+			textureID, 2, GL_FLOAT, GL_FALSE, 0, &textureCoordinate
+		);
+
+
 		/** Model Matrix */
 		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, ground->loadModelMatrix());
 
@@ -197,7 +223,7 @@ namespace CAGLR {
 			1.f* (0xCC0000 % 0x100) / 0xFF,
 			0.0f
 		);
-		glDrawElements(GL_LINE_STRIP, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
+		glDrawElements(GL_LINES, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
 	}
 
 

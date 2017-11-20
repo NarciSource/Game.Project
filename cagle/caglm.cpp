@@ -49,9 +49,9 @@ namespace CAGLM {
 	{
 		float x, y, z;
 
-		x = element[0] * ref.X() + element[4] * ref.Y() + element[8] * ref.Z();
-		y = element[1] * ref.X() + element[5] * ref.Y() + element[9] * ref.Z();
-		z = element[2] * ref.X() + element[6] * ref.Y() + element[10] * ref.Z();
+		x = element[0] * ref.X() + element[4] * ref.Y() + element[8] * ref.Z() + element[12] * 1;
+		y = element[1] * ref.X() + element[5] * ref.Y() + element[9] * ref.Z() + element[13] * 1;
+		z = element[2] * ref.X() + element[6] * ref.Y() + element[10] * ref.Z() + element[14] * 1;
 		
 		return Vec3<float>(x, y, z);
 	}
@@ -82,12 +82,12 @@ namespace CAGLM {
 
 
 	/** Geometric Transformation */
-	Mat4& Mat4::scalef(const float x, const float y, const float z)
+	Mat4& Mat4::scalef(const float size)
 	{
 		Mat4 tmpMat;
-		tmpMat.element[0] = x;
-		tmpMat.element[5] = y;
-		tmpMat.element[10] = z;
+		tmpMat.element[0] = size;
+		tmpMat.element[5] = size;
+		tmpMat.element[10] = size;
 		return (*this) *= tmpMat;
 	}
 
