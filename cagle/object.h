@@ -101,10 +101,10 @@ namespace CAGLE {
 
 
 		/** Get */
-		const float* loadNormal() { return model->load_normal(); }
-		const float* loadVertexPosition() { return model->load_vertex(); }
-		const int	 loadPolygonCount() { return model->load_polygon_num(); }
-		const float* loadModelMatrix() { return modelMatrix.getElement(); }
+		const float* Normals() { return model->load_normal(); }
+		const float* Vertexs() { return model->load_vertex(); }
+		const int	 PolygonCount() { return model->load_polygon_num(); }
+		const float* ModelMatrix() { return modelMatrix.getElement(); }
 
 		const int	 Color() { return model->load_polygon_color(); }
 	};

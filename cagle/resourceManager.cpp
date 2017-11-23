@@ -208,7 +208,7 @@ namespace CAGLE {
 		else return false;
 	}
 
-	std::map<std::string, Object*> ResourceManager::get_all_objects()
+	const std::map<std::string, Object*> ResourceManager::get_all_objects()
 	{
 		return objects;
 	}

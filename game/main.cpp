@@ -14,14 +14,14 @@ void main(int argc, char* argv[]) {
 	auto& gResourceManager =CAGLE::ResourceManager::getInstance();
 	auto& gRenderManager =	CAGLR::RenderManager::getInstance(argc, argv);
 
-	gRenderManager.info();
-
-	gRenderManager.display();	
-
-
-
 	/** set components */
 	componentInit();
+
+	gRenderManager.info();
+
+	gRenderManager.init();
+
+	gRenderManager.display();
 
 	/******** Handler => handler.cpp **********/
 	glutReshapeFunc(changeSize);	

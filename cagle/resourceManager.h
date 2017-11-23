@@ -87,7 +87,12 @@ namespace CAGLE {
 
 
 		/** Call All */
-		std::map<std::string, Object*> get_all_objects();
+		const std::map<std::string, Object*> get_all_objects();
+
+		int sizeObjects()
+		{
+			return objects.size();
+		}
 		/***************************************************************************************/
 
 
