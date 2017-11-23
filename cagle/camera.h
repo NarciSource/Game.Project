@@ -129,8 +129,8 @@ namespace CAGLE {
 
 
 		/** Get */
-		const float* loadViewMatrix() const { return viewMatrix.getElement(); }
-		const float* loadProjectionMatrix()	const { return projectionMatrix.getElement(); }
+		const float* ViewMatrix() const { return viewMatrix.getElement(); }
+		const float* ProjMatrix()	const { return projectionMatrix.getElement(); }
 	};
 
 

@@ -1,9 +1,5 @@
 #pragma once
 
-#pragma comment(lib,"cagle.lib")
-#pragma comment(lib,"glut32.lib")
-#pragma comment(lib,"glew32.lib")
-
 #include <iostream>
 
 #include "glew.h"
@@ -32,6 +28,8 @@ namespace CAGLR {
 
 		void info();
 
+		void init();
+
 		void setShadingType(ShadingType type);
 
 		int getShadingType() { return static_cast<int>(shadingType); }
@@ -45,24 +43,41 @@ namespace CAGLR {
 		GLint	windowSizeX = 2048;
 		GLint	windowSizeY = 1024;
 
+		
 		GLuint	ProgramID;
-		GLint	modelMatrixID, viewMatrixID, projectionMatrixID;
-		GLint	vertexPositionID, normalID;
-		GLint	colorID, lightID, cameraID;
-		GLint	shadingTypeID;
-		GLint	textureID;
+
+		/** shader object location */
+		GLuint	modelmatrix_uni_loc, viewmatrix_uni_loc, porjmatrix_uni_loc;
+		GLuint	vertex_attr_loc, normal_attr_loc;
+		GLuint	color_uni_loc, light_uni_loc, cam_uni_loc;
+		GLuint	shadingtype_loc;
+
+		GLuint	textureID;
 		GLuint	texture;
+
+		/** vbo & object_vao_name name */
+		GLuint*	vertex_vbo_name;
+		GLuint*	normal_vbo_name;
+		GLuint*	object_vao_name;
+			
+
+		GLuint	sizeObjects;
+
+		CAGLE::ResourceManager& gResMngr = CAGLE::ResourceManager::getInstance();;
 
 		ShadingType	shadingType = ShadingType::Phong;
 
 	private:
 		RenderManager(int argc, char* argv[]);
 
-		void init();
+
+		void defineVBO();
+
+		void defineVAO();
 
 		void render();
 
-		void renderObject(CAGLE::Object* object);
+		void renderObject(CAGLE::Object* object, int num_object);
 
 		void renderGround(CAGLE::Ground* ground);
 

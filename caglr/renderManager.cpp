@@ -1,4 +1,4 @@
-#include "renderManager.h"
+﻿#include "renderManager.h"
 
 namespace CAGLR {
 	RenderManager& RenderManager::getInstance(int argc, char* argv[])
@@ -30,7 +30,7 @@ namespace CAGLR {
 		if (!GLEW_VERSION_4_3) {
 			std::cerr << "OpenGL 4.3 API is not available." << std::endl;
 
-			exit(EXIT_FAILURE);
+		//	exit(EXIT_FAILURE);
 		}
 	}
 
@@ -50,9 +50,8 @@ namespace CAGLR {
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 		glutInitWindowSize(windowSizeX, windowSizeY);
 		glutCreateWindow("GAME");
-
-		init();
 	}
+
 
 
 	void RenderManager::init()
@@ -67,20 +66,97 @@ namespace CAGLR {
 
 		ProgramID = LoadShaders("shader\\VertexShader.vert", "shader\\FragmentShader.frag");
 
-		modelMatrixID = glGetUniformLocation(ProgramID, "modelMatrix");
-		viewMatrixID = glGetUniformLocation(ProgramID, "viewMatrix");
-		projectionMatrixID = glGetUniformLocation(ProgramID, "projectionMatrix");
+		modelmatrix_uni_loc = glGetUniformLocation(ProgramID, "modelMatrix");
+		viewmatrix_uni_loc = glGetUniformLocation(ProgramID, "viewMatrix");
+		porjmatrix_uni_loc = glGetUniformLocation(ProgramID, "projectionMatrix");
 
-		vertexPositionID = glGetAttribLocation(ProgramID, "vertexPosition");
-		normalID = glGetAttribLocation(ProgramID, "vertexNormal");
+		color_uni_loc = glGetUniformLocation(ProgramID, "colorValue");
+		light_uni_loc = glGetUniformLocation(ProgramID, "lightPosition");
+		cam_uni_loc = glGetUniformLocation(ProgramID, "cameraPosition");
 
-		colorID = glGetUniformLocation(ProgramID, "colorValue");
-		lightID = glGetUniformLocation(ProgramID, "lightPosition");
-		cameraID = glGetUniformLocation(ProgramID, "cameraPosition");
+		shadingtype_loc = glGetUniformLocation(ProgramID, "shadingType");
 
-		shadingTypeID = glGetUniformLocation(ProgramID, "shadingType");
+		vertex_attr_loc = glGetAttribLocation(ProgramID, "vertexPosition");
+		if (vertex_attr_loc == -1) {
+			std::cerr << "position" << std::endl;
+		}
+
+
+		normal_attr_loc = glGetAttribLocation(ProgramID, "vertexNormal");
+		if (normal_attr_loc == -1) {
+			std::cerr << "position" << std::endl;
+		}
 
 		glClearColor(0.5f, 0.5f, 1.0f, 1.0f);
+
+		defineVBO();
+		defineVAO();
+
+		delete[] vertex_vbo_name;
+		delete[] normal_vbo_name;
+	}
+
+
+	void RenderManager::defineVBO()
+	{
+		vertex_vbo_name = new GLuint[gResMngr.sizeObjects()];
+		normal_vbo_name = new GLuint[gResMngr.sizeObjects()];
+
+		
+		int i = 0;
+		for (auto& each : gResMngr.get_all_objects())
+		{
+			auto obj = each.second;
+
+			glGenBuffers(1, &vertex_vbo_name[i]);
+			glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo_name[i]);
+			{
+				glBufferData(GL_ARRAY_BUFFER,
+					sizeof(GLfloat)*obj->PolygonCount() * 9,
+					obj->Vertexs(),
+					GL_STATIC_DRAW);
+			}
+
+			glGenBuffers(1, &normal_vbo_name[i]);
+			glBindBuffer(GL_ARRAY_BUFFER, normal_vbo_name[i]);
+			{
+				glBufferData(GL_ARRAY_BUFFER,
+					sizeof(GLfloat)*obj->PolygonCount() * 9,
+					obj->Normals(),
+					GL_STATIC_DRAW);
+			}
+			i++;
+		}
+		sizeObjects = i;
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	void RenderManager::defineVAO()
+	{
+		object_vao_name = new GLuint[sizeObjects];
+
+
+		for (unsigned int i = 0; i < sizeObjects; i++)
+		{
+			glGenVertexArrays(1, &object_vao_name[i]);
+			glBindVertexArray(object_vao_name[i]);
+			{
+				glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo_name[i]);
+				{
+					glVertexAttribPointer(vertex_attr_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+				}
+
+				glBindBuffer(GL_ARRAY_BUFFER, normal_vbo_name[i]);
+				{
+					glVertexAttribPointer(normal_attr_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+				}
+				glEnableVertexAttribArray(vertex_attr_loc);
+				glEnableVertexAttribArray(normal_attr_loc);
+			}
+		}
+
+
+		glBindVertexArray(0);
 	}
 
 
@@ -88,110 +164,71 @@ namespace CAGLR {
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-		/****** Shader Program Bind Start ******/
 		glUseProgram(ProgramID);
-
-
-		CAGLE::ResourceManager& gResourceManager = CAGLE::ResourceManager::getInstance();
-
-
-
-		/** View and Projection Matrix */
-		glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, gResourceManager.getCamera("camera1")->loadViewMatrix());
-		glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, gResourceManager.getCamera("camera1")->loadProjectionMatrix());
-
-		/** Camera and Light position */
-		glUniform4f(cameraID, gResourceManager.getCamera("camera1")->X(), gResourceManager.getCamera("camera1")->Y(), gResourceManager.getCamera("camera1")->Z(), 0);
-		glUniform4f(lightID, gResourceManager.getLight()->X(), gResourceManager.getLight()->Y(), gResourceManager.getLight()->Z(), 0);
-
-		/** Shading Type, I supported phong and gouroud */
-		glUniform1i(shadingTypeID, getShadingType());//shadingType);
-
-
-		glEnableVertexAttribArray(vertexPositionID);
-		glEnableVertexAttribArray(normalID);
-
-
-		/* Each object*/
-		for (const auto& each : gResourceManager.get_all_objects())
 		{
-			renderObject(each.second);
+			/** Common render 
+			 cpu mem -> gpu mem */
+			glUniformMatrix4fv(viewmatrix_uni_loc, 1, GL_FALSE, gResMngr.getCamera("camera1")->ViewMatrix());
+			glUniformMatrix4fv(porjmatrix_uni_loc, 1, GL_FALSE, gResMngr.getCamera("camera1")->ProjMatrix());
+
+
+			glUniform4f(cam_uni_loc, gResMngr.getCamera("camera1")->X(), gResMngr.getCamera("camera1")->Y(), gResMngr.getCamera("camera1")->Z(), 0);
+			glUniform4f(light_uni_loc, gResMngr.getLight()->X(), gResMngr.getLight()->Y(), gResMngr.getLight()->Z(), 0);
+
+			glUniform4f(color_uni_loc, 1.f* (0xFFFFFF / 0x10000) / 0xFF,
+				1.f* (0xFFFFFF / 0x100 % 0x100) / 0xFF,
+				1.f* (0xFFFFFF % 0x100) / 0xFF,
+				0.0f
+			);
+
+			glUniform1i(shadingtype_loc, 0x02);
+
+
+
+			/** Object render */
+			int i = 0;
+			for (auto& each : gResMngr.get_all_objects())
+			{
+				renderObject(each.second, i++);
+			}
+			// clean bind
+			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			glEnableVertexAttribArray(vertex_attr_loc);
+			glEnableVertexAttribArray(normal_attr_loc);
+
+
+
+			/** Ground render */
+			renderGround(gResMngr.getGround("ground1"));
+
+
+
 		}
-
-
-		/* Ground render*/
-		renderGround(gResourceManager.getGround("ground1"));
-
-		renderLayout(gResourceManager.getObject("house"));
-
-		glDisableVertexAttribArray(vertexPositionID);
-		glDisableVertexAttribArray(normalID);
-
-
 		glUseProgram(0);
-		/****** Shader Program Bind End *****/
-
 		glutSwapBuffers();
 	}
 
-	void RenderManager::renderLayout(CAGLE::Object* object)
+	void RenderManager::renderObject(CAGLE::Object *obj, int num_object)
 	{
-		object->Size(1);
-		object->Position(CAGLM::Vec3<float>(-20, 0, -20));
-		object->refresh();
-		
+		glUniformMatrix4fv(modelmatrix_uni_loc, 1, GL_FALSE, obj->ModelMatrix());
 
-		/** light off */
-		glUniform1i(shadingTypeID, static_cast<int>(ShadingType::Dont));
-		/** view fixing */
-		glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, CAGLM::Mat4().getElement());
-
-		/** Model Matrix */
-		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, object->loadModelMatrix());
-
-		/** Color */
-		glUniform4f(colorID, 1.f* (object->Color() / 0x10000) / 0xFF,
-			1.f* (object->Color() / 0x100 % 0x100) / 0xFF,
-			1.f* (object->Color() % 0x100) / 0xFF,
-			0.0f
-		);
-
-
-		/** Vertex */
-		glVertexAttribPointer(
-			vertexPositionID,// The attribute we want to configure
-			3,    // size
-			GL_FLOAT,// type
-			GL_FALSE,// normalized?
-			sizeof(GLfloat) * 3,// stride
-			object->loadVertexPosition()// array buffer offset
-		);
-
-		/** Draw call */
-		glDrawArrays(GL_TRIANGLES, 0, object->loadPolygonCount() * 3);
+		glBindVertexArray(object_vao_name[num_object]);
+		{
+			glDrawArrays(GL_TRIANGLES, 0, obj->PolygonCount() * 3);
+		}
 	}
 
 	void RenderManager::renderGround(CAGLE::Ground* ground)
 	{
-		float textureCoordinate[] = {
-			0.0f, 0.1f,
-			1.0f, 1.0f,
-			1.0f, 0.0f,
-			0.0f, 0.0f
-		};
-
-		glVertexAttribPointer(
-			textureID, 2, GL_FLOAT, GL_FALSE, 0, &textureCoordinate
-		);
-
 
 		/** Model Matrix */
-		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, ground->loadModelMatrix());
+		glUniformMatrix4fv(modelmatrix_uni_loc, 1, GL_FALSE, ground->ModelMatrix());
 
 		/** Vertex */
 		glVertexAttribPointer(
-			vertexPositionID,
+			vertex_attr_loc,
 			3,
 			GL_FLOAT,
 			GL_FALSE,
@@ -201,7 +238,7 @@ namespace CAGLR {
 
 		/** Normal */
 		glVertexAttribPointer(
-			normalID,
+			normal_attr_loc,
 			3,
 			GL_FLOAT,
 			GL_FALSE,
@@ -209,63 +246,25 @@ namespace CAGLR {
 			ground->Normals()
 		);
 
-		glUniform4f(colorID, 1.f* (0x66CC66 / 0x10000) / 0xFF,
+		glUniform4f(color_uni_loc, 1.f* (0x66CC66 / 0x10000) / 0xFF,
 			1.f* (0x66CC66 / 0x100 % 0x100) / 0xFF,
 			1.f* (0x66CC66 % 0x100) / 0xFF,
 			0.0f
 		);
+
 		/** Draw call */
 		glDrawElements(GL_TRIANGLE_STRIP, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
 
+
+
 		/** Color */
-		glUniform4f(colorID, 1.f* (0xCC0000 / 0x10000) / 0xFF,
+		glUniform4f(color_uni_loc, 1.f* (0xCC0000 / 0x10000) / 0xFF,
 			1.f* (0xCC0000 / 0x100 % 0x100) / 0xFF,
 			1.f* (0xCC0000 % 0x100) / 0xFF,
 			0.0f
 		);
+
 		glDrawElements(GL_LINES, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
-	}
 
-
-	void RenderManager::renderObject(CAGLE::Object *object)
-	{
-
-		/** Model Matrix */
-		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, object->loadModelMatrix());
-
-		/** Color */
-		glUniform4f(colorID, 1.f* (object->Color() / 0x10000) / 0xFF,
-			1.f* (object->Color() / 0x100 % 0x100) / 0xFF,
-			1.f* (object->Color() % 0x100) / 0xFF,
-			0.0f
-		);
-
-
-		/** Vertex */
-		glVertexAttribPointer(
-			vertexPositionID,// The attribute we want to configure
-			3,    // size
-			GL_FLOAT,// type
-			GL_FALSE,// normalized?
-			sizeof(GLfloat) * 3,// stride
-			object->loadVertexPosition()// array buffer offset
-		);
-
-
-		/** Normal Vector */
-		glVertexAttribPointer(
-			normalID,
-			3,
-			GL_FLOAT,
-			GL_FALSE,
-			sizeof(GLfloat) * 3,
-			object->loadNormal()
-		);
-
-
-
-
-		/** Draw call */
-		glDrawArrays(GL_TRIANGLES, 0, object->loadPolygonCount() * 3);
 	}
 }
