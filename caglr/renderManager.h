@@ -1,11 +1,13 @@
 #pragma once
 
 #include <iostream>
+#include <map>
 
 #include "glew.h"
 #include "glut.h"
 
 #include "resourceManager.h"
+#include "buffer.h"
 
 
 
@@ -17,18 +19,13 @@ namespace CAGLR {
 		Dont = 0x03
 	};
 
+	class Buffer;
 	class RenderManager
 	{
-	public:
-		static RenderManager& getInstance(int argc, char* argv[]);
-		static RenderManager& getInstance();
-
 	public:
 		void display();
 
 		void info();
-
-		void init();
 
 		void setShadingType(ShadingType type);
 
@@ -55,33 +52,24 @@ namespace CAGLR {
 		GLuint	textureID;
 		GLuint	texture;
 
-		/** vbo & object_vao_name name */
-		GLuint*	vertex_vbo_name;
-		GLuint*	normal_vbo_name;
-		GLuint*	object_vao_name;
-			
-
-		GLuint	sizeObjects;
+		std::map<CAGLE::Object*, Buffer*> buffers;
 
 		CAGLE::ResourceManager& gResMngr = CAGLE::ResourceManager::getInstance();;
 
 		ShadingType	shadingType = ShadingType::Phong;
 
+	public:
+		static RenderManager& getInstance(int argc, char* argv[]);
+		static RenderManager& getInstance();
+
 	private:
 		RenderManager(int argc, char* argv[]);
 
+		void init();
 
-		void defineVBO();
-
-		void defineVAO();
+		void pushBuffer();
 
 		void render();
-
-		void renderObject(CAGLE::Object* object, int num_object);
-
-		void renderGround(CAGLE::Ground* ground);
-
-		void renderLayout(CAGLE::Object* object);
 
 		GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
 	};

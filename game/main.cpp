@@ -19,8 +19,6 @@ void main(int argc, char* argv[]) {
 
 	gRenderManager.info();
 
-	gRenderManager.init();
-
 	gRenderManager.display();
 
 	/******** Handler => handler.cpp **********/

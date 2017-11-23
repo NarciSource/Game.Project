@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ground.cpp" />
     <ClCompile Include="resourceManager.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="mvp.cpp" />

@@ -15,10 +15,7 @@ namespace CAGLE {
 		float* uvdata;
 
 	public:
-		Model()
-		{
-			polygoncolor = 0xFFFFFF;
-		}
+		Model() : polygoncolor(0xFFFFFF) { }
 
 		/** Parsing function*/
 		void obj_loader(const std::string filename);

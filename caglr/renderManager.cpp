@@ -14,7 +14,8 @@ namespace CAGLR {
 	}
 
 	void RenderManager::display()
-	{
+	{		
+		pushBuffer();
 		glutDisplayFunc([] {
 			RenderManager::getInstance().render();
 		});
@@ -50,6 +51,8 @@ namespace CAGLR {
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 		glutInitWindowSize(windowSizeX, windowSizeY);
 		glutCreateWindow("GAME");
+
+		init();
 	}
 
 
@@ -66,6 +69,8 @@ namespace CAGLR {
 
 		ProgramID = LoadShaders("shader\\VertexShader.vert", "shader\\FragmentShader.frag");
 
+
+		/* bind vga memory location */
 		modelmatrix_uni_loc = glGetUniformLocation(ProgramID, "modelMatrix");
 		viewmatrix_uni_loc = glGetUniformLocation(ProgramID, "viewMatrix");
 		porjmatrix_uni_loc = glGetUniformLocation(ProgramID, "projectionMatrix");
@@ -77,87 +82,28 @@ namespace CAGLR {
 		shadingtype_loc = glGetUniformLocation(ProgramID, "shadingType");
 
 		vertex_attr_loc = glGetAttribLocation(ProgramID, "vertexPosition");
-		if (vertex_attr_loc == -1) {
-			std::cerr << "position" << std::endl;
-		}
-
 
 		normal_attr_loc = glGetAttribLocation(ProgramID, "vertexNormal");
-		if (normal_attr_loc == -1) {
-			std::cerr << "position" << std::endl;
-		}
+
+
 
 		glClearColor(0.5f, 0.5f, 1.0f, 1.0f);
-
-		defineVBO();
-		defineVAO();
-
-		delete[] vertex_vbo_name;
-		delete[] normal_vbo_name;
 	}
-
-
-	void RenderManager::defineVBO()
+	
+	void RenderManager::pushBuffer()
 	{
-		vertex_vbo_name = new GLuint[gResMngr.sizeObjects()];
-		normal_vbo_name = new GLuint[gResMngr.sizeObjects()];
-
-		
-		int i = 0;
+		/* render data make */
 		for (auto& each : gResMngr.get_all_objects())
 		{
 			auto obj = each.second;
 
-			glGenBuffers(1, &vertex_vbo_name[i]);
-			glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo_name[i]);
-			{
-				glBufferData(GL_ARRAY_BUFFER,
-					sizeof(GLfloat)*obj->PolygonCount() * 9,
-					obj->Vertexs(),
-					GL_STATIC_DRAW);
-			}
-
-			glGenBuffers(1, &normal_vbo_name[i]);
-			glBindBuffer(GL_ARRAY_BUFFER, normal_vbo_name[i]);
-			{
-				glBufferData(GL_ARRAY_BUFFER,
-					sizeof(GLfloat)*obj->PolygonCount() * 9,
-					obj->Normals(),
-					GL_STATIC_DRAW);
-			}
-			i++;
-		}
-		sizeObjects = i;
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-	void RenderManager::defineVAO()
-	{
-		object_vao_name = new GLuint[sizeObjects];
-
-
-		for (unsigned int i = 0; i < sizeObjects; i++)
-		{
-			glGenVertexArrays(1, &object_vao_name[i]);
-			glBindVertexArray(object_vao_name[i]);
-			{
-				glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo_name[i]);
-				{
-					glVertexAttribPointer(vertex_attr_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-				}
-
-				glBindBuffer(GL_ARRAY_BUFFER, normal_vbo_name[i]);
-				{
-					glVertexAttribPointer(normal_attr_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-				}
-				glEnableVertexAttribArray(vertex_attr_loc);
-				glEnableVertexAttribArray(normal_attr_loc);
-			}
+			buffers[obj]= new Buffer(obj, vertex_attr_loc, normal_attr_loc);
 		}
 
-
-		glBindVertexArray(0);
+		auto ground = gResMngr.getGround("ground1");
+		buffers[ground] = new Buffer(ground, vertex_attr_loc, normal_attr_loc);
 	}
+
 
 
 	void RenderManager::render()
@@ -175,96 +121,53 @@ namespace CAGLR {
 			glUniform4f(cam_uni_loc, gResMngr.getCamera("camera1")->X(), gResMngr.getCamera("camera1")->Y(), gResMngr.getCamera("camera1")->Z(), 0);
 			glUniform4f(light_uni_loc, gResMngr.getLight()->X(), gResMngr.getLight()->Y(), gResMngr.getLight()->Z(), 0);
 
-			glUniform4f(color_uni_loc, 1.f* (0xFFFFFF / 0x10000) / 0xFF,
-				1.f* (0xFFFFFF / 0x100 % 0x100) / 0xFF,
-				1.f* (0xFFFFFF % 0x100) / 0xFF,
-				0.0f
-			);
-
 			glUniform1i(shadingtype_loc, 0x02);
 
 
-
-			/** Object render */
-			int i = 0;
+			/** object render */
 			for (auto& each : gResMngr.get_all_objects())
 			{
-				renderObject(each.second, i++);
+				auto obj = each.second;
+				auto obj_buffer = buffers[obj];
+
+				glUniformMatrix4fv(modelmatrix_uni_loc, 1, GL_FALSE, obj->ModelMatrix());
+
+				glUniform4f(color_uni_loc, 1.f* (obj->Color() / 0x10000) / 0xFF,
+					1.f* (obj->Color() / 0x100 % 0x100) / 0xFF,
+					1.f* (obj->Color() % 0x100) / 0xFF,
+					0.0f
+				);
+
+				glBindVertexArray(obj_buffer->Num());
+				{
+					glDrawArrays(GL_TRIANGLES, 0, obj_buffer->Size());
+				}
 			}
-			// clean bind
+			
+			/** ground render */
+			auto ground = gResMngr.getGround("ground1");
+			auto obj_buffer = buffers[ground];
+			glUniformMatrix4fv(modelmatrix_uni_loc, 1, GL_FALSE, ground->ModelMatrix());
+			glUniform4f(color_uni_loc, 1.f* (ground->Color() / 0x10000) / 0xFF,
+				1.f* (ground->Color() / 0x100 % 0x100) / 0xFF,
+				1.f* (ground->Color() % 0x100) / 0xFF,
+				0.0f
+			);
+			glBindVertexArray(obj_buffer->Num());
+			{
+				glDrawElements(GL_TRIANGLE_STRIP, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
+			}
+
+
+			/*// clean bind
 			glBindVertexArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			glEnableVertexAttribArray(vertex_attr_loc);
 			glEnableVertexAttribArray(normal_attr_loc);
-
-
-
-			/** Ground render */
-			renderGround(gResMngr.getGround("ground1"));
-
-
-
+			*/
 		}
 		glUseProgram(0);
 		glutSwapBuffers();
-	}
-
-	void RenderManager::renderObject(CAGLE::Object *obj, int num_object)
-	{
-		glUniformMatrix4fv(modelmatrix_uni_loc, 1, GL_FALSE, obj->ModelMatrix());
-
-		glBindVertexArray(object_vao_name[num_object]);
-		{
-			glDrawArrays(GL_TRIANGLES, 0, obj->PolygonCount() * 3);
-		}
-	}
-
-	void RenderManager::renderGround(CAGLE::Ground* ground)
-	{
-
-		/** Model Matrix */
-		glUniformMatrix4fv(modelmatrix_uni_loc, 1, GL_FALSE, ground->ModelMatrix());
-
-		/** Vertex */
-		glVertexAttribPointer(
-			vertex_attr_loc,
-			3,
-			GL_FLOAT,
-			GL_FALSE,
-			sizeof(GLint) * 3,
-			ground->Vertexs()
-		);
-
-		/** Normal */
-		glVertexAttribPointer(
-			normal_attr_loc,
-			3,
-			GL_FLOAT,
-			GL_FALSE,
-			sizeof(GLint) * 3,
-			ground->Normals()
-		);
-
-		glUniform4f(color_uni_loc, 1.f* (0x66CC66 / 0x10000) / 0xFF,
-			1.f* (0x66CC66 / 0x100 % 0x100) / 0xFF,
-			1.f* (0x66CC66 % 0x100) / 0xFF,
-			0.0f
-		);
-
-		/** Draw call */
-		glDrawElements(GL_TRIANGLE_STRIP, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
-
-
-
-		/** Color */
-		glUniform4f(color_uni_loc, 1.f* (0xCC0000 / 0x10000) / 0xFF,
-			1.f* (0xCC0000 / 0x100 % 0x100) / 0xFF,
-			1.f* (0xCC0000 % 0x100) / 0xFF,
-			0.0f
-		);
-
-		glDrawElements(GL_LINES, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
-
 	}
 }
