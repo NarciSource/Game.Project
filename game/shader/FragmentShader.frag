@@ -1,27 +1,21 @@
-
+#version 460 core
 
 uniform vec4 cameraPosition;
 uniform vec4 lightPosition;
-
 uniform int shadingType;
 
 
+in vec4 fragColor;
+in vec4 fragNormal;
+in vec4 fragPosition;
 
-varying vec4 fragColor;
-varying vec4 fragNormal;
-varying vec4 fragPosition;
+out vec4 fragmentColor;
 
 void main() {
 
-	bool isGouraudShading;
-	bool isPhongShading;
-	isGouraudShading = true;
-	isPhongShading = false;
-
-
 	if(shadingType == 0x01) // Gouraud shading
 	{
-		gl_FragColor = fragColor;
+		fragmentColor = fragColor;
 	}
 
 	if(shadingType == 0x02) // Phong shading
@@ -46,12 +40,12 @@ void main() {
 		float dc = 0.8;
 		float sc = 0.2;
 
-		gl_FragColor = (ac * ambient + dc * diffusion + sc * specular) * fragColor;
+		fragmentColor = (ac * ambient + dc * diffusion + sc * specular) * fragColor;
 	}
 
 	if(shadingType == 0x03) // Don't shading
 	{
-		gl_FragColor = fragColor;
+		fragmentColor = fragColor;
 	}
 }
 

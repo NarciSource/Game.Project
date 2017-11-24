@@ -21,6 +21,8 @@ namespace CAGLR {
 		/** vbo & object_vao_name name */
 		GLuint	vertex_vbo_name;
 		GLuint	normal_vbo_name;
+		GLuint	textur_vbo_name;
+
 		GLuint	object_vao_name;
 
 		GLuint	size;

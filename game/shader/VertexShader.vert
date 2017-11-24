@@ -1,39 +1,29 @@
-
+#version 460 core
 
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
-//uniform vec4 vertexColor;
-
 
 
 uniform vec4 cameraPosition;
 uniform vec4 lightPosition;
 uniform vec4 colorValue;
-
 uniform int shadingType;
 
+in vec4 vertexPosition;
+in vec4 vertexNormal;
 
 
-
-attribute vec4 vertexPosition;
-attribute vec4 vertexNormal;
-
-
-
-
-
-varying vec4 fragColor;
-varying vec4 fragNormal;
-varying vec4 fragPosition;
+out vec4 fragColor;
+out vec4 fragNormal;
+out vec4 fragPosition;
 
 void main () {
- //   vec4 Color   = vertexColor;
- //   fragColor    = Color;
     fragNormal	 = vertexNormal;
 
     vec4 WorldPosition = modelMatrix * vertexPosition;
     fragPosition = WorldPosition;
+
     gl_Position  = projectionMatrix * viewMatrix * WorldPosition;
 
 
