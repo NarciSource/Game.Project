@@ -10,7 +10,8 @@
 #include "object.h"
 
 namespace CAGLE {
-	Object::Object() :position(CAGLM::Vec3<float>(0, 0, 0)), size(1), yaw(0) {}
+	Object::Object(std::string label)
+		:label(label),position(CAGLM::Vec3<float>(0, 0, 0)), size(1), yaw(0) {}
 
 
 
@@ -60,5 +61,19 @@ namespace CAGLE {
 		modelMatrix.rotatef(1.0f*theta, x, y, z);
 		modelMatrix.translatef(-turnRadius, 0, 0);
 		modelMatrix.translatev(position);
+	}
+
+
+
+
+
+	const float* Object::Color() {
+		static float color[4] = {
+			1.f*(model->load_polygon_color() / 0x10000) / 0xFF,
+			1.f*(model->load_polygon_color() / 0x100 % 0x100) / 0xFF,
+			1.f*(model->load_polygon_color() % 0x100) / 0xFF,
+			0.f
+		};
+		return color;
 	}
 };

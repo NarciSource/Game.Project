@@ -47,14 +47,16 @@ namespace CAGLR {
 		GLuint	modelmatrix_uni_loc, viewmatrix_uni_loc, porjmatrix_uni_loc;
 		GLuint	vertex_attr_loc, normal_attr_loc;
 		GLuint	color_uni_loc, light_uni_loc, cam_uni_loc;
-		GLuint	shadingtype_loc;
+		GLuint	flag_tex_loc;
 
-		GLuint	textureID;
+
+		GLuint	uv_attr_loc;
+		GLuint	texture_uni_loc;
 		GLuint	texture;
 
 		std::map<CAGLE::Object*, Buffer*> buffers;
 
-		CAGLE::ResourceManager& gResMngr = CAGLE::ResourceManager::getInstance();;
+		CAGLE::ResourceManager& gResMngr = CAGLE::ResourceManager::getInstance();
 
 		ShadingType	shadingType = ShadingType::Phong;
 

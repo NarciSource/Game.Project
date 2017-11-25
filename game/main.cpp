@@ -76,6 +76,11 @@ void componentInit()
 
 		auto& object = gResourceManager.newObject(name);
 		auto model = gResourceManager.newModel(list["fileName"]);
+		if (!list["texture"].is_null())
+		{
+			auto texture = gResourceManager.newTexture(list["texture"]);
+			object.bind(texture);
+		}
 
 		object.bind(model);
 		object.Size(list["size"]);

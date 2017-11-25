@@ -138,6 +138,7 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="terrain.cpp" />
+    <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ground.h" />
@@ -149,6 +150,9 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="terrain.h" />
+    <ClInclude Include="texture.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

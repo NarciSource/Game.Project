@@ -28,6 +28,7 @@
 #include "player.h"
 #include "ground.h"
 #include "terrain.h"
+#include "texture.h"
 
 namespace CAGLE {
 	/** forward Declaration */
@@ -35,6 +36,7 @@ namespace CAGLE {
 	class Camera;
 	class Light;
 	class Player;
+	class Texture;
 
 	class ResourceManager {
 	public:
@@ -57,6 +59,8 @@ namespace CAGLE {
 		/***************************************************************************************/
 
 		Model* newModel(const std::string filename);
+
+		Texture* newTexture(const std::string filename);
 		
 		bool loadModel(const std::string name, const std::string filename);
 
@@ -154,6 +158,8 @@ namespace CAGLE {
 		std::map<std::string, Object*> objects;
 
 		std::map<std::string, Model*> models;
+
+		std::map<std::string, Texture*> textures;
 
 
 		std::map<std::string, Ground*> grounds;

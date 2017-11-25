@@ -1,5 +1,5 @@
 ﻿#include "renderManager.h"
-
+#include "image.h"
 namespace CAGLR {
 	RenderManager& RenderManager::getInstance(int argc, char* argv[])
 	{
@@ -79,13 +79,13 @@ namespace CAGLR {
 		light_uni_loc = glGetUniformLocation(ProgramID, "lightPosition");
 		cam_uni_loc = glGetUniformLocation(ProgramID, "cameraPosition");
 
-		shadingtype_loc = glGetUniformLocation(ProgramID, "shadingType");
+		flag_tex_loc = glGetUniformLocation(ProgramID, "flagTex");
 
 		vertex_attr_loc = glGetAttribLocation(ProgramID, "vertexPosition");
-
 		normal_attr_loc = glGetAttribLocation(ProgramID, "vertexNormal");
+		uv_attr_loc = glGetAttribLocation(ProgramID, "vertexUV");
 
-
+	//	texture_uni_loc = glGetUniformLocation(ProgramID, "tex");
 
 		glClearColor(0.5f, 0.5f, 1.0f, 1.0f);
 	}
@@ -97,11 +97,19 @@ namespace CAGLR {
 		{
 			auto obj = each.second;
 
-			buffers[obj]= new Buffer(obj, vertex_attr_loc, normal_attr_loc);
+			if (obj->isTexture())
+			{
+				buffers[obj] = new Buffer(obj, vertex_attr_loc, normal_attr_loc, 
+					uv_attr_loc, texture, texture_uni_loc);
+			}
+			else {
+				buffers[obj] = new Buffer(obj, vertex_attr_loc, normal_attr_loc);
+			}
 		}
 
 		auto ground = gResMngr.getGround("ground1");
 		buffers[ground] = new Buffer(ground, vertex_attr_loc, normal_attr_loc);
+
 	}
 
 
@@ -121,8 +129,9 @@ namespace CAGLR {
 			glUniform4f(cam_uni_loc, gResMngr.getCamera("camera1")->X(), gResMngr.getCamera("camera1")->Y(), gResMngr.getCamera("camera1")->Z(), 0);
 			glUniform4f(light_uni_loc, gResMngr.getLight()->X(), gResMngr.getLight()->Y(), gResMngr.getLight()->Z(), 0);
 
-			glUniform1i(shadingtype_loc, 0x02);
+			
 
+				
 
 			/** object render */
 			for (auto& each : gResMngr.get_all_objects())
@@ -130,15 +139,26 @@ namespace CAGLR {
 				auto obj = each.second;
 				auto obj_buffer = buffers[obj];
 
+				/* model matrix */
 				glUniformMatrix4fv(modelmatrix_uni_loc, 1, GL_FALSE, obj->ModelMatrix());
 
-				glUniform4f(color_uni_loc, 1.f* (obj->Color() / 0x10000) / 0xFF,
-					1.f* (obj->Color() / 0x100 % 0x100) / 0xFF,
-					1.f* (obj->Color() % 0x100) / 0xFF,
-					0.0f
-				);
+				/* color */
+				glUniform4fv(color_uni_loc, 1, obj->Color());
 
-				glBindVertexArray(obj_buffer->Num());
+				/* texture */
+				if (obj->isTexture())
+				{
+					glUniform1i(flag_tex_loc, true);					
+					glBindTexture(GL_TEXTURE_2D, obj_buffer->TextureNum());
+				//	glUniform1i(texture_uni_loc, 0);
+				}
+				else {
+					glUniform1i(flag_tex_loc, false);
+					glBindTexture(GL_TEXTURE_2D, 0);					
+				}
+
+				/* draw */
+				glBindVertexArray(obj_buffer->VaoNum());
 				{
 					glDrawArrays(GL_TRIANGLES, 0, obj_buffer->Size());
 				}
@@ -148,24 +168,12 @@ namespace CAGLR {
 			auto ground = gResMngr.getGround("ground1");
 			auto obj_buffer = buffers[ground];
 			glUniformMatrix4fv(modelmatrix_uni_loc, 1, GL_FALSE, ground->ModelMatrix());
-			glUniform4f(color_uni_loc, 1.f* (ground->Color() / 0x10000) / 0xFF,
-				1.f* (ground->Color() / 0x100 % 0x100) / 0xFF,
-				1.f* (ground->Color() % 0x100) / 0xFF,
-				0.0f
-			);
-			glBindVertexArray(obj_buffer->Num());
+			glUniform1i(flag_tex_loc, false);
+			glUniform4fv(color_uni_loc, 1, ground->Color());
+			glBindVertexArray(obj_buffer->VaoNum());
 			{
 				glDrawElements(GL_TRIANGLE_STRIP, ground->indices_size(), GL_UNSIGNED_INT, ground->Indices());
 			}
-
-
-			/*// clean bind
-			glBindVertexArray(0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-			glEnableVertexAttribArray(vertex_attr_loc);
-			glEnableVertexAttribArray(normal_attr_loc);
-			*/
 		}
 		glUseProgram(0);
 		glutSwapBuffers();

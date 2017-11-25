@@ -25,6 +25,7 @@ namespace CAGLE {
 		/** Get */
 		const float* load_normal() { return normaldata; }
 		const float* load_vertex() { return vertexdata; }
+		const float* load_uv() { return uvdata; }
 		const int	 load_polygon_num() { return polygoncount; }
 
 

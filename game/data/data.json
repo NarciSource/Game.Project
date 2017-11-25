@@ -19,10 +19,16 @@
       "position": [ -30, 0, 130 ],
       "size": 5
     },
-    "teapot": {
-      "fileName": "data\\teapot.dat",
-      "position": [ -10, 0, -50 ],
-      "size": 5
+    "newtree": {
+      "fileName": "data\\treeExport.obj",
+      "texture": "data\\heightmap.bmp",
+      "position": [ -40, 0, -30 ],
+      "size": 0.5
+    },
+    "treeg": {
+      "fileName": "data\\treeg.obj",
+      "position": [ -40, 0, -30 ],
+      "size": 0.5
     },
     "tiger0": {
       "fileName": "data\\tigre_sumatra_sketchfab.obj",
@@ -51,6 +57,7 @@
     },
     "tree0": {
       "fileName": "data\\PineTree.obj",
+      "texture": "data\\tree.bmp",
       "position": [ 10, 0, 10 ],
       "size": 50
     },

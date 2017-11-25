@@ -51,4 +51,15 @@ namespace CAGLE {
 
 		return answer*Size() + Position().Y();
 	}
+
+
+	const float* Ground::Color() {
+		static float color[4] = {
+			1.f*(colorv / 0x10000) / 0xFF,
+			1.f*(colorv / 0x100 % 0x100) / 0xFF,
+			1.f*(colorv % 0x100) / 0xFF,
+			0.f
+		};
+		return color;
+	}
 }

@@ -31,7 +31,7 @@ namespace CAGLE {
 		const static std::regex vPattern{ R"(v\s+(-?\d+.?\d*)\s(-?\d+.?\d*)\s(-?\d+.?\d*))" }; // (x y z)
 		const static std::regex vtPattern{ R"(vt\s(-?\d+.?\d*)\s(-?\d+.?\d*)(?:\s(-?\d+.?\d*)){0,1})" }; // (x y z) or (x y)
 		const static std::regex vnPattern{ R"(vn\s(-?\d+.?\d*)\s(-?\d+.?\d*)\s(-?\d+.?\d*))" }; // (x y z)
-		const static std::regex fPattern{ R"(f\s(\d+)/(\d)*/(\d+)\s(\d+)/(\d)*/(\d+)\s(\d+)/(\d)*/(\d+))" }; //(x1/y1/z1 x2/y2/z2 x3/y3/z3) or (x1//z1 x2//z2 x3//z3)
+		const static std::regex fPattern{ R"(f\s(\d+)/(\d+)*/(\d+)\s(\d+)/(\d+)*/(\d+)\s(\d+)/(\d+)*/(\d+))" }; //(x1/y1/z1 x2/y2/z2 x3/y3/z3) or (x1//z1 x2//z2 x3//z3)
 		std::smatch m;
 
 		polygoncount = 0;
@@ -90,7 +90,8 @@ namespace CAGLE {
 
 		vertexdata = new float[polygoncount * 3 * 3];
 		normaldata = new float[polygoncount * 3 * 3];
-		uvdata = new float[polygoncount * 3 * 3];
+		if (!localUvs.empty())
+			uvdata = new float[polygoncount * 3 * 2];
 		for (int i = 0; i < this->polygoncount * 3; i++)
 		{
 			vertexdata[i * 3 + 0] = localVertices[localVertexIndices[i]].X();
@@ -101,11 +102,11 @@ namespace CAGLE {
 			normaldata[i * 3 + 1] = localNormals[localNormalIndices[i]].Y();
 			normaldata[i * 3 + 2] = localNormals[localNormalIndices[i]].Z();
 
-			if (localUvs.empty()) continue;
-
-			uvdata[i * 3 + 0] = localUvs[localUvIndices[i]].X();
-			uvdata[i * 3 + 1] = localUvs[localUvIndices[i]].Y();
-			uvdata[i * 3 + 2] = localUvs[localUvIndices[i]].Z();
+			if (!localUvs.empty())
+			{
+				uvdata[i * 2 + 0] = localUvs[localUvIndices[i]].X();
+				uvdata[i * 2 + 1] = localUvs[localUvIndices[i]].Y();
+			}
 		}
 	}
 

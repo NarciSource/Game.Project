@@ -24,8 +24,8 @@ namespace CAGLE {
 	private:
 		void init(int lh, int w);
 
-		void compute_vertex(float**);
-		void compute_normal(float**);
+		void compute_vertex(CAGLM::Image*);
+		void compute_normal(CAGLM::Image*);
 		void compute_indice();		
 
 	public:

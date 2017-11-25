@@ -8,10 +8,10 @@ namespace CAGLM
 	Image::Image(int h, int w) :height(h), width(w)
 	{
 		pixels.set(h, w, 3);
-		rgbs.set(h, w, 3);
+	//	rgbs.set(3, h, w);
 	}
 
-	Image& Image::load_bmp(const std::string filename)
+	Image* Image::load_bmp(const std::string filename)
 	{
 		std::ifstream fin(filename, std::ios::in | std::ios::binary);
 
@@ -47,14 +47,14 @@ namespace CAGLM
 				g = img->pixels[i][j][1];
 				r = img->pixels[i][j][2];
 
-				img->rgbs[0][i][j] = r;
-				img->rgbs[1][i][j] = g;
-				img->rgbs[2][i][j] = b;
+			//	img->rgbs[0][i][j] = r;
+			//	img->rgbs[1][i][j] = g;
+			//	img->rgbs[2][i][j] = b;
 			}
 		}
 
 		fin.close();
-		return *img;
+		return img;
 	}
 
 	void Image::Image::close()

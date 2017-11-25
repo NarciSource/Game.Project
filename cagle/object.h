@@ -20,6 +20,7 @@
 #include "mat4.h"
 #include "mvp.h"
 #include "model.h"
+#include "texture.h"
 
 /** Auto GET and Set Function Maker */
 #define AUTO_GETSET2(TYPE2, FUNC_NAME2, PROP2) \
@@ -62,7 +63,9 @@ namespace CAGLE {
 
 		/** Local Coordinate
 		* Polygon Data */
-		Model* model;
+		Model* model = nullptr;
+
+		Texture* texture = nullptr;
 
 
 		/** World Coordinate */
@@ -73,7 +76,7 @@ namespace CAGLE {
 		ModelMatrix modelMatrix;
 
 	public:
-		Object();
+		Object(std::string label);
 
 
 
@@ -87,6 +90,7 @@ namespace CAGLE {
 
 		/** Set */
 		void bind(Model* md) { model = md; }
+		void bind(Texture* tx) { texture = tx; }
 
 
 		/** Get and Set */
@@ -103,10 +107,16 @@ namespace CAGLE {
 		/** Get */
 		virtual const float* Normals() { return model->load_normal(); }
 		virtual const float* Vertexs() { return model->load_vertex(); }
+		virtual const float* UV() { return model->load_uv(); }
 		virtual const int	 PolygonCount() { return model->load_polygon_num(); }
 		virtual const float* ModelMatrix() { return modelMatrix.getElement(); }
 
-		virtual const int	 Color() { return model->load_polygon_color(); }
+		virtual const bool	 isTexture() { return (texture != nullptr); }
+		virtual const float	 TextureHeight() { return texture->Height(); }
+		virtual const float	 TextureWidth() { return texture->Width(); }
+		virtual const unsigned char* Texture() { return texture->Pixels(); }
+
+		virtual const float* Color();
 	};
 
 

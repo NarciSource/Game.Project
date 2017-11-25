@@ -20,50 +20,32 @@ namespace CAGLE {
 
 	void Terrain::load_terrain(const std::string filename)
 	{
-		CAGLM::Image& img = CAGLM::Image::load_bmp(filename);
-
-		/* heights map */
-		float** heights_map;
-
-		heights_map = new float*[img.Height()];
-		for (int i = 0; i < img.Height(); i++)
-		{
-			heights_map[i] = new float[img.Width()];
-			for (int j = 0; j < img.Width(); j++)
-			{
-				heights_map[i][j] = static_cast<float>(img.Pixel(i,j,0)) / 255.f;
-			}
-		}
+		CAGLM::Image* img = CAGLM::Image::load_bmp(filename);
 
 		/* terrain compute */
-		init(img.Height(), img.Width());
+		init(img->Height(), img->Width());
 
-		compute_vertex(heights_map);
-		compute_normal(heights_map);
+		compute_vertex(img);
+		compute_normal(img);
 		compute_indice();		
 
-
-		/* clear */
-		for (int i = 0; i < img.Height(); i++)
-			delete[] heights_map[i];
-		delete[] heights_map;
-		img.close();
+		delete img;
 	}
 
-	void Terrain::compute_vertex(float** hmap)
+	void Terrain::compute_vertex(CAGLM::Image* img)
 	{
 		for (int i = 0; i < length; i++)
 		{
 			for (int j = 0; j < width; j++)
 			{
 				vertexs[i][j][0] = i*1.f;
-				vertexs[i][j][1] = hmap[i][j]*curve_level;
+				vertexs[i][j][1] = img->Pixel(i, j, 1) / 255.f * curve_level;
 				vertexs[i][j][2] = j*1.f;
 			}
 		}
 	}
 
-	void Terrain::compute_normal(float** hmap)
+	void Terrain::compute_normal(CAGLM::Image* img)
 	{
 		CAGLM::Vec3<float> v1, v2, v3, v4;
 		CAGLM::Vec3<float> n1, n2, n3, n4, n;
@@ -74,16 +56,16 @@ namespace CAGLE {
 			for (int j = 0; j < width; j++)
 			{
 				if (i != 0) {
-					v1 = CAGLM::Vec3<float>(0.f, hmap[i - 1][j] - hmap[i][j], -1.f);
+					v1 = CAGLM::Vec3<float>(0.f, (img->Pixel(i - 1, j, 0) - img->Pixel(i, j, 0)) / 255.f, -1.f);
 				}
 				if (j != 0) {
-					v2 = CAGLM::Vec3<float>(-1.f, hmap[i][j - 1] - hmap[i][j], 0.f);
+					v2 = CAGLM::Vec3<float>(-1.f, (img->Pixel(i, j - 1, 0) - img->Pixel(i, j, 0)) / 255.f, 0.f);
 				}
 				if (i != length - 1) {
-					v3 = CAGLM::Vec3<float>(0.f, hmap[i + 1][j] - hmap[i][j], 1.f);
+					v3 = CAGLM::Vec3<float>(0.f, (img->Pixel(i + 1, j, 0) - img->Pixel(i, j, 0)) / 255.f, 1.f);
 				}
 				if (j != width - 1) {
-					v4 = CAGLM::Vec3<float>(1.f, hmap[i][j + 1] - hmap[i][j], 0.f);
+					v4 = CAGLM::Vec3<float>(1.f, (img->Pixel(i, j + 1, 0) - img->Pixel(i, j, 0)) / 255.f, 0.f);
 				}
 
 				n1 = CAGLM::Vec3<float>::Cross(v1, v2);

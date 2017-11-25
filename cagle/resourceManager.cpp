@@ -15,7 +15,7 @@ namespace CAGLE {
 		auto ret = grounds.insert({ name,nullptr });
 		if (ret.second)
 		{
-			ret.first->second = new Ground();
+			ret.first->second = new Ground(name);
 		}
 		else { // overlap			
 			std::cerr << "Already exist " << name << std::endl;
@@ -39,7 +39,7 @@ namespace CAGLE {
 		auto ret = objects.insert({ name,nullptr });
 		if (ret.second)
 		{
-			ret.first->second = new Object();
+			ret.first->second = new Object(name);
 		}
 		else { // overlap			
 			std::cerr << "Already exist " << name << std::endl;
@@ -79,6 +79,27 @@ namespace CAGLE {
 			ret.first->second->obj_loader(filename);
 		}
 		return models[filename];
+	}
+
+	Texture* ResourceManager::newTexture(const std::string filename)
+	{
+		std::ifstream in(filename);
+		if (!in.good())
+		{
+			std::cerr << filename << " doesn't exist" << std::endl;
+			in.close();
+		//	return &Null_Model();
+		}
+		in.close();
+
+		/** model make */
+		auto ret = textures.insert({ filename,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Texture();
+			ret.first->second->texture_loader(filename);
+		}
+		return textures[filename];
 	}
 
 	Object* ResourceManager::getObject(const std::string name)
