@@ -74,8 +74,23 @@ void componentInit()
 		std::string name = it.key();
 		Json list = it.value();
 
-		auto& object = gResourceManager.newObject(name);
-		auto model = gResourceManager.newModel(list["fileName"]);
+
+		CAGLE::ResourceManager::Type type;
+		if (list["type"] == "ground")
+			type = CAGLE::ResourceManager::Type::Ground;
+		else if (list["type"] == "sky")
+		{
+			std::cout << "sky";
+			type = CAGLE::ResourceManager::Type::Sky;
+		}
+		else
+			type = CAGLE::ResourceManager::Type::Object;
+
+
+		auto& object = gResourceManager.newObject(name, type);
+
+		auto model = gResourceManager.newModel(list["fileName"], type);
+
 		if (!list["texture"].is_null())
 		{
 			auto texture = gResourceManager.newTexture(list["texture"]);
@@ -85,21 +100,6 @@ void componentInit()
 		object.bind(model);
 		object.Size(list["size"]);
 		object.Position(CAGLM::Vec3<float>(list["position"][0], list["position"][1], list["position"][2]));
-	}
-
-	/** make Terrain */
-	for (auto it = save["g"].begin(); it != save["g"].end(); it++)
-	{
-		std::string name = it.key();
-		Json list = it.value();
-
-		auto& ground = gResourceManager.newGround(name);
-		auto model = gResourceManager.newTerrain(list["fileName"]);
-
-		ground.bind(model);
-		ground.Size(list["size"]);
-		ground.Position(CAGLM::Vec3<float>(list["position"][0], list["position"][1], list["position"][2]));
-		ground.refresh();
 	}
 
 

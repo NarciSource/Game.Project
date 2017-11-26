@@ -18,15 +18,17 @@ namespace CAGLE {
 		Model() : polygoncolor(0xFFFFFF) { }
 
 		/** Parsing function*/
-		void obj_loader(const std::string filename);
-		void obj_loader2(const std::string filename);
+		virtual void loader(const std::string filename);
+		void loader2(const std::string filename);
 
 
 		/** Get */
-		const float* load_normal() { return normaldata; }
-		const float* load_vertex() { return vertexdata; }
-		const float* load_uv() { return uvdata; }
-		const int	 load_polygon_num() { return polygoncount; }
+		virtual const float* Normals() { return normaldata; }
+		virtual const float* Vertexs() { return vertexdata; }
+		virtual const int*	 Indices() { return nullptr; }
+		virtual const int	 IndiceSize() { return -1; }
+		virtual const float* Uvs() { return uvdata; }
+		virtual const int	 PolygonCount() { return polygoncount; }
 
 
 		const int	 load_polygon_color() { return polygoncolor; }

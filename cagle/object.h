@@ -56,7 +56,7 @@ namespace CAGLE {
 
 
 
-	private:
+	protected:
 		/** Object Name */
 		std::string label;
 
@@ -105,10 +105,10 @@ namespace CAGLE {
 
 
 		/** Get */
-		virtual const float* Normals() { return model->load_normal(); }
-		virtual const float* Vertexs() { return model->load_vertex(); }
-		virtual const float* UV() { return model->load_uv(); }
-		virtual const int	 PolygonCount() { return model->load_polygon_num(); }
+		virtual const float* Normals() { return model->Normals(); }
+		virtual const float* Vertexs() { return model->Vertexs(); }
+		virtual const float* Uvs() { return model->Uvs(); }
+		virtual const int	 PolygonCount() { return model->PolygonCount(); }
 		virtual const float* ModelMatrix() { return modelMatrix.getElement(); }
 
 		virtual const bool	 isTexture() { return (texture != nullptr); }
@@ -117,6 +117,9 @@ namespace CAGLE {
 		virtual const unsigned char* Texture() { return texture->Pixels(); }
 
 		virtual const float* Color();
+
+		virtual const int IndicesSize() { return -1; }
+		virtual const int* Indices() { return nullptr; }
 	};
 
 

@@ -7,10 +7,11 @@
 #include "mat4.h"
 #include "array3.h"
 #include "image.h"
+#include "model.h"
 
 namespace CAGLE {
 
-	class Terrain
+	class Terrain : public Model
 	{
 	private:
 		int length;
@@ -18,6 +19,7 @@ namespace CAGLE {
 
 		CAGLM::Array3<float>	vertexs;
 		CAGLM::Array3<float>	normals;
+		CAGLM::Array3<float>	uvs;
 		int*		indices;
 
 		const int curve_level = 10;
@@ -26,13 +28,14 @@ namespace CAGLE {
 
 		void compute_vertex(CAGLM::Image*);
 		void compute_normal(CAGLM::Image*);
+		void compute_uv();
 		void compute_indice();		
 
 	public:
 		Terrain() {}
 		~Terrain();
 
-		void load_terrain(const std::string filename);
+		void loader(const std::string filename);
 
 		
 
@@ -43,10 +46,12 @@ namespace CAGLE {
 		
 		float Height(const int x, const int y) { return vertexs[x][y][1]; }
 
-		const int indices_size() { return (length * 2 - 2)*(width + 1); }
+		const int IndiceSize() { return (length * 2 - 2)*(width + 1); }
 
-		float*	Vertexs() { return vertexs[0][0]; }
-		float*	Normals() { return normals[0][0]; }
-		int*	Indices() { return indices; }
+		const float*	Vertexs() { return vertexs[0][0]; }
+		const float*	Normals() { return normals[0][0]; }
+		const float*	Uvs()	  { return uvs[0][0]; }
+		const int		PolygonCount() { return IndiceSize() / 3; }
+		const int*		Indices() { return indices; }
 	};
 }

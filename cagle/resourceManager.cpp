@@ -10,36 +10,22 @@
 
 namespace CAGLE {
 
-	Ground& ResourceManager::newGround(const std::string name)
-	{
-		auto ret = grounds.insert({ name,nullptr });
-		if (ret.second)
-		{
-			ret.first->second = new Ground(name);
-		}
-		else { // overlap			
-			std::cerr << "Already exist " << name << std::endl;
-		}
-		return *grounds[name];
-	}
-
-	Ground* ResourceManager::getGround(const std::string name)
-	{
-		if (grounds.find(name) != grounds.end())
-		{
-			return grounds[name];
-		}
-		else {
-			return nullptr;
-		}
-	}
-
-	Object& ResourceManager::newObject(const std::string name)
+	Object& ResourceManager::newObject(const std::string name, const Type type)
 	{
 		auto ret = objects.insert({ name,nullptr });
 		if (ret.second)
 		{
-			ret.first->second = new Object(name);
+			switch (type)
+			{
+			case Type::Ground:
+				ret.first->second = new Ground(name);
+				break;
+			case Type::Sky:
+				ret.first->second = new Sky(name);
+				break;
+			default:
+				ret.first->second = new Object(name);
+			}
 		}
 		else { // overlap			
 			std::cerr << "Already exist " << name << std::endl;
@@ -60,7 +46,7 @@ namespace CAGLE {
 		return *players[name];
 	}
 
-	Model* ResourceManager::newModel(const std::string filename)
+	Model* ResourceManager::newModel(const std::string filename, const Type type)
 	{
 		std::ifstream in(filename);
 		if (!in.good())
@@ -75,8 +61,16 @@ namespace CAGLE {
 		auto ret = models.insert({ filename,nullptr });
 		if (ret.second)
 		{
-			ret.first->second = new Model();
-			ret.first->second->obj_loader(filename);
+			switch (type)
+			{
+			case Type::Ground:
+				ret.first->second = new Terrain();
+				ret.first->second->loader(filename);
+				break;
+			default:
+				ret.first->second = new Model();
+				ret.first->second->loader(filename);
+			}
 		}
 		return models[filename];
 	}
@@ -197,7 +191,7 @@ namespace CAGLE {
 		if (ret.second)
 		{
 			ret.first->second = new Model();
-			ret.first->second->obj_loader(filename);
+			ret.first->second->loader(filename);
 		}
 
 		/** set */
@@ -262,6 +256,11 @@ namespace CAGLE {
 		}
 	}
 
+	const float* ResourceManager::getCameraPosition(const std::string name)
+	{
+		return getCamera(name)->Position().get_area();
+	}
+
 
 
 
@@ -277,49 +276,13 @@ namespace CAGLE {
 		return onlyLight;
 	}
 
-
-
-	Terrain* ResourceManager::newTerrain(const std::string filename)
+	const float* ResourceManager::getLightPosition(void)
 	{
-		std::ifstream in(filename);
-		if (!in.good())
-		{
-			std::cerr << filename << " doesn't exist" << std::endl;
-			in.close();
-			throw;
-		}
-		in.close();
-
-		/** model make */
-		auto ret = terrain.insert({ filename,nullptr });
-		if (ret.second)
-		{
-			ret.first->second = new Terrain();
-			ret.first->second->load_terrain(filename);
-		}
-		return terrain[filename];
+		return getLight()->Position().get_area();
 	}
 
-	Terrain* ResourceManager::getTerrain(const std::string name)
-	{
-		if (terrain.find(name) != terrain.end())
-		{
-			return terrain[name];
-		}
-		else {
-			return nullptr;
-		}
-	}
 
-	void ResourceManager::deleteTerrain(const std::string name)
-	{
-		auto it = terrain.find(name);
-		if (it != terrain.end())
-		{
-			delete it->second;
-			terrain.erase(it);
-		}
-	}
+
 
 
 	void ResourceManager::refresh(void)

@@ -62,7 +62,7 @@ namespace CAGLR {
 		{
 			glBufferData(GL_ARRAY_BUFFER,
 				sizeof(GLfloat)*obj->PolygonCount() * 6,
-				obj->UV(),
+				obj->Uvs(),
 				GL_STATIC_DRAW);
 		}
 
@@ -114,7 +114,7 @@ namespace CAGLR {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 		{
-		//	glUniform1i(texture_uni_loc, 0);
+			glUniform1i(texture_uni_loc, 0);
 		}
 		glBindTexture(GL_TEXTURE_2D, 0);
 

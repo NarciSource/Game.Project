@@ -163,7 +163,7 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 	auto& gResourceManager = CAGLE::ResourceManager::getInstance();
 	auto& gRenderManager = CAGLR::RenderManager::getInstance();
 	auto player = gResourceManager.getPlayer("player1");
-	auto ground = gResourceManager.getGround("ground1");
+	auto ground = dynamic_cast<CAGLE::Ground*>(gResourceManager.getObject("ground1"));
 	static bool flagShit = true;
 
 

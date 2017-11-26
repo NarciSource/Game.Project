@@ -29,15 +29,15 @@ namespace CAGLE {
 
 		if ((r_hat.X() - static_cast<int>(r_hat.X())) + (r_hat.Z() - static_cast<int>(r_hat.Z())) <= 1.0f)
 		{
-			ha = terrain->Height(a.X(), a.Z());
-			hb = terrain->Height(b.X(), b.Z());
-			hc = terrain->Height(c.X(), c.Z());
+			ha = static_cast<Terrain*>(model)->Height(a.X(), a.Z());
+			hb = static_cast<Terrain*>(model)->Height(b.X(), b.Z());
+			hc = static_cast<Terrain*>(model)->Height(c.X(), c.Z());
 			hd = hb + hc - ha;
 		}
 		else {
-			hb = terrain->Height(b.X(), b.Z());
-			hc = terrain->Height(c.X(), c.Z());
-			hd = terrain->Height(d.X(), d.Z());
+			hb = static_cast<Terrain*>(model)->Height(b.X(), b.Z());
+			hc = static_cast<Terrain*>(model)->Height(c.X(), c.Z());
+			hd = static_cast<Terrain*>(model)->Height(d.X(), d.Z());
 			ha = hb + hc - hd;
 		}
 

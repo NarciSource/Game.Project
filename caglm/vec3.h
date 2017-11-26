@@ -25,49 +25,54 @@ namespace CAGLM {
 	template<typename T> //Vec3 is used as direction vector(float) with a triple container(int).
 	class Vec3 {
 	public:
-		T x, y, z;
+		T e[3];
 
 	public:
 		Vec3() {}
-		Vec3(const T x, const T y, const T z) : x(x), y(y), z(z) {}
+		Vec3(const T x, const T y, const T z)
+		{
+			e[0] = x; e[1] = y; e[2] = z;
+		}
 
 
 
-		const T length() const { return sqrt(x*x + y*y + z*z); }
+		const T length() const { return sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]); }
 
 		/** Arithmetic operator */
-		Vec3 operator-() const { return Vec3(-x, -y, -z); }
-		Vec3 operator+(const Vec3& v) const { return Vec3(x + v.x, y + v.y, z + v.z); }
-		Vec3& operator+=(const Vec3& v) { x += v.x; y += v.y; z += v.z; return *this; }
-		Vec3 operator-(const Vec3& v) const { return Vec3(x - v.x, y - v.y, z - v.z); }
-		Vec3& operator-=(const Vec3& v) { x -= v.x; y -= v.y; z -= v.z; return *this; }
-		Vec3 operator*(const T num) const { return Vec3(x*num, y*num, z*num); }
-		Vec3& operator*=(const Vec3& v) { x *= v.x; y *= v.y; z *= v.z; return *this; }
+		Vec3 operator-() const { return Vec3(-e[0], -e[1], -e[2]); }
+		Vec3 operator+(const Vec3& v) const { return Vec3(e[0] + v.e[0], e[1] + v.e[1], e[2] + v.e[2]); }
+		Vec3& operator+=(const Vec3& v) { e[0] += v.e[0]; e[1] += v.e[1]; e[2] += v.e[2]; return *this; }
+		Vec3 operator-(const Vec3& v) const { return Vec3(e[0] - v.e[0], e[1] - v.e[1], e[2] - v.e[2]); }
+		Vec3& operator-=(const Vec3& v) { e[0] -= v.e[0]; e[1] -= v.e[1]; e[2] -= v.e[2]; return *this; }
+		Vec3 operator*(const T num) const { return Vec3(e[0]*num, e[1]*num, e[2]*num); }
+		Vec3& operator*=(const Vec3& v) { e[0] *= v.e[0]; e[1] *= v.e[1]; e[2] *= v.e[2]; return *this; }
 		Vec3 operator/(const T num) const
 		{
 			if (num == 0) throw - 1;
-			else return Vec3(x / num, y / num, z / num);
+			else return Vec3(e[0] / num, e[1] / num, e[2] / num);
 		}
-		Vec3& operator/=(const Vec3& v) { x /= v.x; y /= v.y; z /= v.z; return *this; }
+		Vec3& operator/=(const Vec3& v) { e[0] /= v.e[0]; e[1] /= v.e[1]; e[2] /= v.e[2]; return *this; }
 
 
 		/** Relational operator */
-		bool operator==(const Vec3& v) const { return (x == v.x)&(y == v.y)&(z == v.z); }
-		bool operator!=(const Vec3& v) const { return !((x == v.x)&(y == v.y)&(z == v.z)); }
+		bool operator==(const Vec3& v) const { return (e[0] == v.e[0])&(e[1] == v.e[1])&(e[2] == v.e[2]); }
+		bool operator!=(const Vec3& v) const { return !((e[0] == v.e[0])&(e[1] == v.e[1])&(e[2] == v.e[2])); }
 
 
 		/** Vector operator */
-		static Vec3 Normalize(const Vec3 v) { return Vec3(v.x / v.length(), v.y / v.length(), v.z / v.length()); }
-		static T Dot(const Vec3& v1, const Vec3& v2) { return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z; }
-		static Vec3 Cross(const Vec3& v1, const Vec3& v2) { return Vec3(v1.y*v2.z - v1.z*v2.y, v1.z*v2.x - v1.x*v2.z, v1.x*v2.y - v1.y*v2.x); }
+		static Vec3 Normalize(const Vec3 v) { return Vec3(v.e[0] / v.length(), v.e[1] / v.length(), v.e[2] / v.length()); }
+		static T Dot(const Vec3& v1, const Vec3& v2) { return v1.e[0]*v2.e[0] + v1.e[1]*v2.e[1] + v1.e[2]*v2.e[2]; }
+		static Vec3 Cross(const Vec3& v1, const Vec3& v2) { return Vec3(v1.e[1]*v2.e[2] - v1.e[2]*v2.e[1], v1.e[2]*v2.e[0] - v1.e[0]*v2.e[2], v1.e[0]*v2.e[1] - v1.e[1]*v2.e[0]); }
 		static T Angle(const Vec3& v1, const Vec3& v2) { return acosf(Dot(v1, v2) / (v1.length()*v2.length())); }
 
 		/** Set */
-		void operator()(const T argx, const T argy, const T argz) { x = argx; y = argy; z = argz; }
+		void operator()(const T argx, const T argy, const T argz) { e[0] = argx; e[1] = argy; e[2] = argz; }
 
 		/** GET and SET */
-		AUTO_GETSET(T, X, x);
-		AUTO_GETSET(T, Y, y);
-		AUTO_GETSET(T, Z, z);
+		AUTO_GETSET(T, X, e[0]);
+		AUTO_GETSET(T, Y, e[1]);
+		AUTO_GETSET(T, Z, e[2]);
+
+		const float* get_area() { return e; }
 	};
 }

@@ -9,6 +9,7 @@ namespace CAGLE {
 		length = l; width = w;
 		vertexs.set(l, w, 3);
 		normals.set(l, w, 3);
+		uvs.set(l, w, 2);
 
 		indices = new int[(l * 2 - 2)*(w + 1)];
 	}
@@ -18,7 +19,7 @@ namespace CAGLE {
 		delete[] indices;
 	}
 
-	void Terrain::load_terrain(const std::string filename)
+	void Terrain::loader(const std::string filename)
 	{
 		CAGLM::Image* img = CAGLM::Image::load_bmp(filename);
 
@@ -27,6 +28,7 @@ namespace CAGLE {
 
 		compute_vertex(img);
 		compute_normal(img);
+		compute_uv();
 		compute_indice();		
 
 		delete img;
@@ -78,6 +80,27 @@ namespace CAGLE {
 				normals[i][j][0] += n.X();
 				normals[i][j][1] += n.Y();
 				normals[i][j][2] += n.Z();
+			}
+		}
+	}
+
+	void Terrain::compute_uv()
+	{
+		for (int i = 0; i < length; i+=2)
+		{
+			for (int j = 0; j < width; j+=2)
+			{
+				uvs[i][j][0] = 0.f;
+				uvs[i][j][1] = 0.f;
+
+				uvs[i][j + 1][0] = 1.f;
+				uvs[i][j + 1][1] = 0.f;
+
+				uvs[i + 1][j][0] = 0.f;
+				uvs[i + 1][j][1] = 1.f;
+
+				uvs[i + 1][j + 1][0] = 1.f;
+				uvs[i + 1][j + 1][1] = 1.f;
 			}
 		}
 	}

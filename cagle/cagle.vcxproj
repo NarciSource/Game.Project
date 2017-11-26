@@ -149,6 +149,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="sky.h" />
     <ClInclude Include="terrain.h" />
     <ClInclude Include="texture.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

@@ -39,7 +39,6 @@ namespace CAGLR {
 	private:
 		GLint	windowSizeX = 2048;
 		GLint	windowSizeY = 1024;
-
 		
 		GLuint	ProgramID;
 
@@ -47,7 +46,7 @@ namespace CAGLR {
 		GLuint	modelmatrix_uni_loc, viewmatrix_uni_loc, porjmatrix_uni_loc;
 		GLuint	vertex_attr_loc, normal_attr_loc;
 		GLuint	color_uni_loc, light_uni_loc, cam_uni_loc;
-		GLuint	flag_tex_loc;
+		GLuint	flag_tex_loc, flag_shading_loc;
 
 
 		GLuint	uv_attr_loc;

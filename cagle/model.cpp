@@ -9,7 +9,7 @@
 
 namespace CAGLE {
 
-	void Model::obj_loader(const std::string filename)
+	void Model::loader(const std::string filename)
 	{
 		std::ifstream fin(filename);
 		if (!fin.is_open()) {
@@ -110,7 +110,7 @@ namespace CAGLE {
 		}
 	}
 
-	void Model::obj_loader2(const std::string filename)
+	void Model::loader2(const std::string filename)
 	{	/** Data parsing */
 		std::ifstream fin(filename);
 		if (!fin.is_open()) {

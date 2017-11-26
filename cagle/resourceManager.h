@@ -27,6 +27,7 @@
 #include "light.h"
 #include "player.h"
 #include "ground.h"
+#include "sky.h"
 #include "terrain.h"
 #include "texture.h"
 
@@ -46,10 +47,13 @@ namespace CAGLE {
 			return instance;
 		}
 		
+		enum class Type {
+			Object, Ground, Sky
+		};
 	public:
 		/***************** Object manage *******************************************************/
 
-		Object& newObject(const std::string name);
+		Object& newObject(const std::string name, const Type type);
 
 		Object* getObject(const std::string name);
 
@@ -58,18 +62,11 @@ namespace CAGLE {
 		void deleteObject(const std::string name);
 		/***************************************************************************************/
 
-		Model* newModel(const std::string filename);
+		Model* newModel(const std::string filename, const Type type);
 
 		Texture* newTexture(const std::string filename);
 		
 		bool loadModel(const std::string name, const std::string filename);
-
-
-		Ground& newGround(const std::string name);
-
-		Ground* getGround(const std::string name);
-
-
 
 
 
@@ -93,10 +90,7 @@ namespace CAGLE {
 		/** Call All */
 		const std::map<std::string, Object*> get_all_objects();
 
-		int sizeObjects()
-		{
-			return objects.size();
-		}
+		
 		/***************************************************************************************/
 
 
@@ -112,6 +106,8 @@ namespace CAGLE {
 
 		/** Call */
 		Camera* getCamera(const std::string name);
+
+		const float* getCameraPosition(const std::string name);
 		/***************************************************************************************/
 
 
@@ -127,19 +123,13 @@ namespace CAGLE {
 
 		/** Call */
 		Light* getLight(void);
+
+		const float* getLightPosition(void);
 		/***************************************************************************************/
 
 
 
 		
-		/***************** Terrain manage ********************************************************/
-		Terrain* newTerrain(const std::string filename);
-		
-		Terrain* getTerrain(const std::string name);
-
-		void	 deleteTerrain(const std::string name);
-		/***************************************************************************************/
-
 		void refresh(void);
 
 
@@ -160,11 +150,6 @@ namespace CAGLE {
 		std::map<std::string, Model*> models;
 
 		std::map<std::string, Texture*> textures;
-
-
-		std::map<std::string, Ground*> grounds;
-		
-		std::map<std::string, Terrain*> terrain;
 
 
 		std::map<std::string, Player*> players;

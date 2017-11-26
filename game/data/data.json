@@ -6,24 +6,31 @@
       "position": [ 0, 20, 100 ]
     }
   },
-  "g": {
+  "o": {
     "ground1": {
+      "type": "ground",
       "fileName": "data\\heightmap.bmp",
+      "texture": "data\\ground2.bmp",
       "position": [ -2500, -200, -3000 ],
       "size": 100
-    }
-  },
-  "o": {
+    },
+    "sky1": {
+      "type": "sky",
+      "fileName": "data\\sky.obj",
+      "texture": "data\\sky.bmp",
+      "position": [ 0, 100, 0 ],
+      "size": 20
+    },
+    "newtree": {
+      "fileName": "data\\treeExport.obj",
+      "texture": "data\\ground1.bmp",
+      "position": [ -40, 0, -30 ],
+      "size": 0.5
+    },
     "rover": {
       "fileName": "data\\Mars Rock Collecter.obj",
       "position": [ -30, 0, 130 ],
       "size": 5
-    },
-    "newtree": {
-      "fileName": "data\\treeExport.obj",
-      "texture": "data\\heightmap.bmp",
-      "position": [ -40, 0, -30 ],
-      "size": 0.5
     },
     "treeg": {
       "fileName": "data\\treeg.obj",
