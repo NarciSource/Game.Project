@@ -27,10 +27,6 @@ namespace CAGLR {
 
 		void info();
 
-		void setShadingType(ShadingType type);
-
-		int getShadingType() { return static_cast<int>(shadingType); }
-
 		int WindowSizeX() { return windowSizeX; }
 		int WindowSizeY() { return windowSizeY; }
 		void WindowSizeX(int x) { windowSizeX = x; }
@@ -41,23 +37,22 @@ namespace CAGLR {
 		GLint	windowSizeY = 1024;
 		
 		GLuint	ProgramID;
+		CAGLE::ResourceManager& gResMngr = CAGLE::ResourceManager::getInstance();
+
 
 		/** shader object location */
 		GLuint	modelmatrix_uni_loc, viewmatrix_uni_loc, porjmatrix_uni_loc;
-		GLuint	vertex_attr_loc, normal_attr_loc;
+		GLuint	vertex_attr_loc, normal_attr_loc, uv_attr_loc;
 		GLuint	color_uni_loc, light_uni_loc, cam_uni_loc;
+
+		GLuint	texture, texture_uni_loc;
+
 		GLuint	flag_tex_loc, flag_shading_loc;
 
 
-		GLuint	uv_attr_loc;
-		GLuint	texture_uni_loc;
-		GLuint	texture;
-
+		/** vao: vertex array object */
 		std::map<CAGLE::Object*, Buffer*> buffers;
-
-		CAGLE::ResourceManager& gResMngr = CAGLE::ResourceManager::getInstance();
-
-		ShadingType	shadingType = ShadingType::Phong;
+		
 
 	public:
 		static RenderManager& getInstance(int argc, char* argv[]);

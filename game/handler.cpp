@@ -188,12 +188,6 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 		player->move(ground, CAGLE::Direct::Right, sensitivity * 3); break;
 
 
-		/** Shader type changing */
-	case 'g':
-		gRenderManager.setShadingType(CAGLR::ShadingType::Gouraud); break;
-	case 'h':
-		gRenderManager.setShadingType(CAGLR::ShadingType::Phong);	break;
-
 
 		/** Romote rover object */
 	case '8':

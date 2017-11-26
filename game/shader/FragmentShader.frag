@@ -15,6 +15,19 @@ in vec2 fragUV;
 
 out vec4 fragmentColor;
 
+// rim lighting
+float calculate_rim(vec4 N, vec4 V)
+{
+	float f = 1.0 - dot(N,V);
+
+	f = smoothstep(0.0, 1.0, f);
+
+	f = pow(f, 2);
+
+	return f*1.2;
+}
+
+
 void main() {
 
 	if(flagShading)
@@ -40,7 +53,7 @@ void main() {
 		float dc = 0.8;
 		float sc = 0.2;
 
-		fragmentColor = (ac * ambient + dc * diffusion + sc * specular) * fragColor;
+		fragmentColor = (ac * ambient + dc * diffusion + sc * specular) * calculate_rim(N,V) * fragColor;
 	}
 	else {
 		fragmentColor = fragColor;

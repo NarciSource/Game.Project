@@ -35,11 +35,6 @@ namespace CAGLR {
 		}
 	}
 
-	void RenderManager::setShadingType(ShadingType type)
-	{
-		shadingType = type;
-	}
-
 
 
 
