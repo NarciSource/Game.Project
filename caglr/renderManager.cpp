@@ -19,6 +19,16 @@ namespace CAGLR {
 		glutDisplayFunc([] {
 			RenderManager::getInstance().render();
 		});
+
+		handler();
+	}
+
+	void RenderManager::handler()
+	{
+		glutKeyboardFunc([](const unsigned char key, const int x, const int y) {
+			static auto keyboard = CAGLE::ResourceManager::getInstance().getKeyboard("keyboard1");
+			keyboard->keyboardHandler(key, x, y);
+		});
 	}
 
 	void RenderManager::info()

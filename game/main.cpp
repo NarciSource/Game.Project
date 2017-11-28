@@ -26,7 +26,7 @@ void main(int argc, char* argv[]) {
 	glutReshapeFunc(changeSize);	
 //	glutIdleFunc(idle);
 	glutTimerFunc(30, idle, 1);
-	glutKeyboardFunc(keyboardHandler);
+	
 	glutSpecialFunc(specialKeyboardHandler);
 	glutMouseFunc(mouseClickHandler);
 	glutPassiveMotionFunc(mouseMoveHandler);
@@ -35,7 +35,6 @@ void main(int argc, char* argv[]) {
 //	ShowCursor(false);
 	glutMainLoop();
 }
-
 
 /****  Set Init position  ****/
 void componentInit()
@@ -105,6 +104,10 @@ void componentInit()
 	player.bind(gResourceManager.getCamera("camera1"));
 
 	gResourceManager.newController("controller1", gResourceManager.getPlayer("player1"));
+	gResourceManager.newKeyboard("keyboard1", gResourceManager.getPlayer("player1"));
+
+	auto keyboard = gResourceManager.getKeyboard("keyboard1");
+	keyboard->addHandler(static_cast<char>(13), [] {glutFullScreen(); });
 
 
 	/** make Light */

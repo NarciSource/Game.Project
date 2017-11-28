@@ -145,6 +145,8 @@
   <ItemGroup>
     <ClInclude Include="controller.h" />
     <ClInclude Include="ground.h" />
+    <ClInclude Include="hid.h" />
+    <ClInclude Include="keyboard.h" />
     <ClInclude Include="resourceManager.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="mvp.h" />

@@ -26,7 +26,9 @@
 #include "camera.h"
 #include "light.h"
 #include "player.h"
+#include "hid.h"
 #include "controller.h"
+#include "keyboard.h"
 #include "ground.h"
 #include "sky.h"
 #include "terrain.h"
@@ -82,11 +84,11 @@ namespace CAGLE {
 		/***************************************************************************************/
 
 		Controller& newController(const std::string name, Player* player);
+		Keyboard& newKeyboard(const std::string name, Player* player);
 
-		Controller* getController(const std::string name)
-		{
-			return controllers[name];
-		}
+
+		Controller* getController(const std::string name);
+		Keyboard* getKeyboard(const std::string name);
 
 
 
@@ -163,7 +165,7 @@ namespace CAGLE {
 
 		std::map<std::string, Player*> players;
 
-		std::map<std::string, Controller*> controllers;
+		std::map<std::string, HumanInterfaceDevice*> hids;
 
 		std::map<std::string, Camera*> cameras;
 		

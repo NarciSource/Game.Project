@@ -62,16 +62,39 @@ namespace CAGLE {
 
 	Controller& ResourceManager::newController(const std::string name, Player* player)
 	{
-		auto ret = controllers.insert({ name,nullptr });
+		auto ret = hids.insert({ name,nullptr });
 		if (ret.second)
 		{
-			ret.first->second = new Controller(controllers.size(), player);
+			ret.first->second = new Controller(hids.size(), player);
 		}
 		else { // overlap			
 			std::cerr << "Already exist " << name << std::endl;
 		}
-		return *controllers[name];
+		return *(static_cast<Controller*>(hids[name]));
 	}
+	Controller* ResourceManager::getController(const std::string name)
+	{
+		return static_cast<Controller*>(hids[name]);
+	}
+
+	Keyboard& ResourceManager::newKeyboard(const std::string name, Player* player)
+	{
+		auto ret = hids.insert({ name,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Keyboard(player);
+		}
+		else { // overlap			
+			std::cerr << "Already exist " << name << std::endl;
+		}
+		return *(static_cast<Keyboard*>(hids[name]));
+	}
+	Keyboard* ResourceManager::getKeyboard(const std::string name)
+	{
+		return static_cast<Keyboard*>(hids[name]);
+	}
+
+
 
 	Model* ResourceManager::newModel(const std::string filename, const Type type)
 	{

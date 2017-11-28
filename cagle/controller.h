@@ -4,12 +4,13 @@
 #include <Windows.h>
 #include <Xinput.h>
 
-#include "player.h"
+#include "hid.h"
+
 
 
 namespace CAGLE {
 	class ResourceManager;
-	class Controller {
+	class Controller : public HumanInterfaceDevice {
 	private:
 		int num;
 		XINPUT_STATE state;

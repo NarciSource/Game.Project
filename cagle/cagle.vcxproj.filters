@@ -13,75 +13,99 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="헤더 파일\hid">
+      <UniqueIdentifier>{62b408d5-f9c1-4868-943a-34a18d33c976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\model">
+      <UniqueIdentifier>{bdd086ee-4892-4481-ad4c-af3954c622fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\object">
+      <UniqueIdentifier>{11305995-3017-4abf-916b-24658d5b3802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\hid">
+      <UniqueIdentifier>{33f850ed-e8a1-42f8-9c2c-a6a92346f730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\object">
+      <UniqueIdentifier>{d8936a29-98ea-4ded-bfc3-31758e9e28a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\model">
+      <UniqueIdentifier>{40395154-7088-45a2-b7d0-98b19a679b6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="object.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="light.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="mvp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="model.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="terrain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="resourceManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="controller.cpp">
+      <Filter>소스 파일\hid</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>소스 파일\object</Filter>
+    </ClCompile>
+    <ClCompile Include="terrain.cpp">
+      <Filter>소스 파일\object</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>소스 파일\object</Filter>
+    </ClCompile>
     <ClCompile Include="ground.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\object</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>소스 파일\object</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>소스 파일\model</Filter>
     </ClCompile>
     <ClCompile Include="texture.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="controller.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="object.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="mvp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="terrain.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="resourceManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ground.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="hid.h">
+      <Filter>헤더 파일\hid</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="sky.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="keyboard.h">
+      <Filter>헤더 파일\hid</Filter>
     </ClInclude>
     <ClInclude Include="controller.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\hid</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>헤더 파일\model</Filter>
+    </ClInclude>
+    <ClInclude Include="terrain.h">
+      <Filter>헤더 파일\model</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>헤더 파일\object</Filter>
+    </ClInclude>
+    <ClInclude Include="sky.h">
+      <Filter>헤더 파일\object</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>헤더 파일\object</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>헤더 파일\object</Filter>
+    </ClInclude>
+    <ClInclude Include="ground.h">
+      <Filter>헤더 파일\object</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>헤더 파일\object</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>헤더 파일\model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
