@@ -1,5 +1,6 @@
 #pragma once
 
+
 #pragma comment(lib,"glut32.lib")
 #pragma comment(lib,"glew32.lib")
 #pragma comment(lib,"caglm.lib")
@@ -7,6 +8,9 @@
 #pragma comment(lib,"caglr.lib")
 
 
+#pragma comment(lib,"XInput.lib")
+#include <Windows.h>
+#include <Xinput.h>
 #include "glew.h"
 #include "glut.h"
 

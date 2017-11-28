@@ -11,8 +11,13 @@ float sensitivityFrame = 30;
 void mkarrow();
 /**** no action, runtime ****/
 void idle(int value)
-{
+{	
 	auto& gResourceManager = CAGLE::ResourceManager::getInstance();
+	auto controller = gResourceManager.getController("controller1");
+	if (controller != nullptr) {
+		controller->handler();
+		gResourceManager.adjustment();
+	}
 
 	/** Arrow action */
 	for(auto each: gResourceManager.get_all_objects())
@@ -163,7 +168,6 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 	auto& gResourceManager = CAGLE::ResourceManager::getInstance();
 	auto& gRenderManager = CAGLR::RenderManager::getInstance();
 	auto player = gResourceManager.getPlayer("player1");
-	auto ground = dynamic_cast<CAGLE::Ground*>(gResourceManager.getObject("ground1"));
 	static bool flagShit = true;
 
 
@@ -171,21 +175,21 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 	{
 		/** Character Moving */
 	case 'w':
-		player->move(ground,CAGLE::Direct::Forward, sensitivity); break;
+		player->move(CAGLE::Direct::Forward, sensitivity); break;
 	case 'W':
-		player->move(ground, CAGLE::Direct::Forward, sensitivity * 3); break;
+		player->move(CAGLE::Direct::Forward, sensitivity * 3); break;
 	case 's':
-		player->move(ground, CAGLE::Direct::Backward, sensitivity); break;
+		player->move(CAGLE::Direct::Backward, sensitivity); break;
 	case 'S':
-		player->move(ground, CAGLE::Direct::Backward, sensitivity * 3); break;
+		player->move(CAGLE::Direct::Backward, sensitivity * 3); break;
 	case 'a':
-		player->move(ground, CAGLE::Direct::Left, sensitivity); break;
+		player->move(CAGLE::Direct::Left, sensitivity); break;
 	case 'A':
-		player->move(ground, CAGLE::Direct::Left, sensitivity * 3); break;
+		player->move(CAGLE::Direct::Left, sensitivity * 3); break;
 	case 'd':
-		player->move(ground, CAGLE::Direct::Right, sensitivity); break;
+		player->move(CAGLE::Direct::Right, sensitivity); break;
 	case 'D':
-		player->move(ground, CAGLE::Direct::Right, sensitivity * 3); break;
+		player->move(CAGLE::Direct::Right, sensitivity * 3); break;
 
 
 
@@ -246,6 +250,8 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 	case 27:
 		exit(0);
 	}
+
+	gResourceManager.adjustment();
 
 	glutPostRedisplay();
 }

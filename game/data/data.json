@@ -3,7 +3,7 @@
     "camera1": {
       "far": 5000.0,
       "lookat": [ 0, 50, 0 ],
-      "position": [ 0, 20, 100 ]
+      "position": [ 0, 30, 100 ]
     }
   },
   "o": {
@@ -36,6 +36,65 @@
       "fileName": "data\\treeg.obj",
       "position": [ -40, 0, -30 ],
       "size": 0.5
+    },
+    "elemphant": {
+      "fileName": "data\\elephant_asie_sketchfab.obj",
+      "position": [ 100, 20, 300 ],
+      "size": 20
+    },
+    "hippo": {
+      "fileName": "data\\hippo.obj",
+      "position": [ 100, 0, -300 ],
+      "size": 40
+    },
+    "deer": {
+      "fileName": "data\\deer.obj",
+      "position": [ 100, 0, -200 ],
+      "size": 5
+    },
+    "buck": {
+      "fileName": "data\\buck.obj",
+      "position": [ 80, 0, -120 ],
+      "size": 0.03
+    },
+    "bow": {
+      "fileName": "data\\bow.obj",
+      "position": [ -180, 10, -120 ],
+      "size": 1
+    },
+    "m4": {
+      "fileName": "data\\m4.obj",
+      "position": [ -180, 10, -150 ],
+      "size": 0.1
+    },
+    "famas": {
+      "fileName": "data\\Famas_G2.obj",
+      "texture": "data\\FAMASG2.bmp",
+      "position": [ -150, 10, -150 ],
+      "size": 1
+    },
+    "ar15": {
+      "fileName": "data\\ar15.obj",
+      "texture": "data\\ar15.bmp",
+      "position": [ -100, 0, -150 ],
+      "size": 0.01
+    },
+    "ash127": {
+      "fileName": "data\\ASH12.7.obj",
+      "texture": "data\\ASH12.7.bmp",
+      "position": [ -80, 0, -200 ],
+      "size": 1
+    },
+    "AssaultRifle": {
+      "fileName": "data\\crossbow.obj",
+      "texture": "data\\crossbow.bmp",
+      "position": [ -80, 0, 230 ],
+      "size": 10
+    },
+    "fox": {
+      "fileName": "data\\fox.obj",
+      "position": [ 100, 0, -100 ],
+      "size": 0.1
     },
     "tiger0": {
       "fileName": "data\\tigre_sumatra_sketchfab.obj",

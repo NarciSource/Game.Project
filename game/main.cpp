@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <Windows.h>
+
+
 
 #include "main.hpp"
 #include "json.h"
@@ -10,7 +11,7 @@ using Json = nlohmann::json;
 
 
 void main(int argc, char* argv[]) {
-	
+
 	auto& gResourceManager =CAGLE::ResourceManager::getInstance();
 	auto& gRenderManager =	CAGLR::RenderManager::getInstance(argc, argv);
 
@@ -50,23 +51,6 @@ void componentInit()
 	std::ifstream in("data\\data.json");
 	in >> save;
 
-	/** make Camera */
-	for (auto it = save["c"].begin(); it != save["c"].end(); it++)
-	{
-		std::string name = it.key();
-		Json list = it.value();
-
-		auto& camera = gResourceManager.newCamera(name);
-
-		camera.Aspect(windowSizeX / windowSizeY);
-		camera.Position(CAGLM::Vec3<float>(list["position"][0], list["position"][1], list["position"][2]));
-		camera.LookAt(CAGLM::Vec3<float>(list["lookat"][0], list["lookat"][1], list["lookat"][2]));
-		camera.Far(list["far"]);
-	}
-
-	auto& player = gResourceManager.newPlayer("player1");
-	player.bind(gResourceManager.getCamera("camera1"));
-
 
 	/** make object */
 	for (auto it = save["o"].begin(); it != save["o"].end(); it++)
@@ -103,6 +87,24 @@ void componentInit()
 	}
 
 
+	/** make Camera */
+	for (auto it = save["c"].begin(); it != save["c"].end(); it++)
+	{
+		std::string name = it.key();
+		Json list = it.value();
+
+		auto& camera = gResourceManager.newCamera(name);
+
+		camera.Aspect(windowSizeX / windowSizeY);
+		camera.Position(CAGLM::Vec3<float>(list["position"][0], list["position"][1], list["position"][2]));
+		camera.LookAt(CAGLM::Vec3<float>(list["lookat"][0], list["lookat"][1], list["lookat"][2]));
+		camera.Far(list["far"]);
+	}
+
+	auto& player = gResourceManager.newPlayer("player1");
+	player.bind(gResourceManager.getCamera("camera1"));
+
+	gResourceManager.newController("controller1", gResourceManager.getPlayer("player1"));
 
 
 	/** make Light */

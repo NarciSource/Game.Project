@@ -26,6 +26,7 @@
 #include "camera.h"
 #include "light.h"
 #include "player.h"
+#include "controller.h"
 #include "ground.h"
 #include "sky.h"
 #include "terrain.h"
@@ -57,6 +58,8 @@ namespace CAGLE {
 
 		Object* getObject(const std::string name);
 
+		Ground* getGround(const std::string name);
+
 		bool copyObject(const std::string dst, const std::string src, const int num=1);
 
 		void deleteObject(const std::string name);
@@ -68,6 +71,7 @@ namespace CAGLE {
 		
 		bool loadModel(const std::string name, const std::string filename);
 
+		void adjustment();
 
 
 		/***************** Player manage *******************************************************/
@@ -77,7 +81,12 @@ namespace CAGLE {
 		Player* getPlayer(const std::string name);
 		/***************************************************************************************/
 
+		Controller& newController(const std::string name, Player* player);
 
+		Controller* getController(const std::string name)
+		{
+			return controllers[name];
+		}
 
 
 
@@ -153,6 +162,8 @@ namespace CAGLE {
 
 
 		std::map<std::string, Player*> players;
+
+		std::map<std::string, Controller*> controllers;
 
 		std::map<std::string, Camera*> cameras;
 		

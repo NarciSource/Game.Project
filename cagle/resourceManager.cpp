@@ -46,6 +46,33 @@ namespace CAGLE {
 		return *players[name];
 	}
 
+	void ResourceManager::adjustment()
+	{
+		Ground* ground = getGround("ground1");
+		Player* player = getPlayer("player1");
+
+		CAGLM::Vec3<float> position = player->Position();
+
+		float height = ground->Height(position.X(), position.Z()) + player->Tall();
+
+		position.Y(height);
+
+		player->Position(position);
+	}
+
+	Controller& ResourceManager::newController(const std::string name, Player* player)
+	{
+		auto ret = controllers.insert({ name,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Controller(controllers.size(), player);
+		}
+		else { // overlap			
+			std::cerr << "Already exist " << name << std::endl;
+		}
+		return *controllers[name];
+	}
+
 	Model* ResourceManager::newModel(const std::string filename, const Type type)
 	{
 		std::ifstream in(filename);
@@ -105,6 +132,11 @@ namespace CAGLE {
 		else {
 			return nullptr;
 		}
+	}
+
+	Ground* ResourceManager::getGround(const std::string name)
+	{
+		return static_cast<Ground*>(getObject(name));
 	}
 
 	Player* ResourceManager::getPlayer(const std::string name)
